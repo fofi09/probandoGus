@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bento Grid 6 Elementos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .parent {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            padding: 16px;
+            max-width: 1000px;
+            margin: 0 auto;
+            height: 100vh;
+        }
+
+        .card {
+            @apply bg-gray-200 rounded-3xl overflow-hidden shadow-md flex justify-center items-center;
+        }
+
+        .div1 { grid-column: span 3 / span 3; grid-row: span 3 / span 3; grid-column-start: 2; grid-row-start: 2; }
+        .div2 { grid-row: span 3 / span 3; grid-column-start: 5; grid-row-start: 3; }
+        .div3 { grid-row: span 3 / span 3; grid-column-start: 1; grid-row-start: 3; }
+        .div4 { grid-column-start: 2; grid-row-start: 5; }
+        .div5 { grid-column-start: 3; grid-row-start: 5; }
+        .div6 { grid-column-start: 4; grid-row-start: 5; }
+
+        @media (max-width: 768px) {
+            .parent {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+                height: auto;
+                gap: 8px;
+            }
+            .div1, .div2, .div3, .div4, .div5, .div6 {
+                grid-column: auto !important;
+                grid-row: auto !important;
+                grid-column-start: auto !important;
+                grid-row-start: auto !important;
+                min-height: 150px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <main class="parent">
+        <div class="card div1"><img src="https://placehold.co/600x400/indigo/white?text=Principal" alt="1" class="w-full h-full object-cover"></div>
+        <div class="card div2"><img src="https://placehold.co/200x400/pink/white?text=2" alt="2" class="w-full h-full object-cover"></div>
+        <div class="card div3"><img src="https://placehold.co/200x400/emerald/white?text=3" alt="3" class="w-full h-full object-cover"></div>
+        <div class="card div4"><img src="https://placehold.co/200x200/orange/white?text=4" alt="4" class="w-full h-full object-cover"></div>
+        <div class="card div5"><img src="https://placehold.co/200x200/blue/white?text=5" alt="5" class="w-full h-full object-cover"></div>
+        <div class="card div6"><img src="https://placehold.co/200x200/red/white?text=6" alt="6" class="w-full h-full object-cover"></div>
+    </main>
+
+</body>
+</html>

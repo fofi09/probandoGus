@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Compacto y Equilibrado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { height: 100vh; overflow: hidden; }
+        
+        /* Ajuste para que el grid principal sea compacto */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            grid-template-rows: auto;
+            gap: 8px;
+            /* Eliminamos la altura fija (60vh) para permitir que el contenido dicte el tamaño compacto */
+            padding: 0 8px;
+        }
+
+        /* Forzamos al contenedor de la imagen principal a ser cuadrado */
+        .main-img-container {
+            aspect-ratio: 1 / 1;
+        }
+    </style>
+</head>
+<body class="bg-white p-2">
+
+    <header class="flex justify-between items-center py-2 px-1">
+        <div class="font-bold text-lg">IconScout</div>
+        <button class="bg-gray-100 text-xs px-4 py-1 rounded-full">Acceso</button>
+    </header>
+
+    <section class="mt-2">
+        <h1 class="text-xl font-bold mb-2 ml-1">tendencia</h1>
+        
+        <div class="grid-layout">
+            <!-- Imagen grande izquierda: Ahora con aspecto 1:1 para no ser tan larga -->
+            <div class="main-img-container bg-blue-50 rounded-lg flex items-center justify-center border">
+                [Imagen Principal]
+            </div>
+
+            <!-- Columna derecha con 3 pequeñas: Se alineará naturalmente con el contenedor cuadrado -->
+            <div class="grid grid-rows-3 gap-2">
+                <div class="bg-gray-100 rounded flex items-center justify-center border text-[10px]">Img 1</div>
+                <div class="bg-gray-100 rounded flex items-center justify-center border text-[10px]">Img 2</div>
+                <div class="bg-gray-100 rounded flex items-center justify-center border text-[10px]">Img 3</div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <h2 class="font-bold text-sm">Business</h2>
+            <p class="text-xs text-gray-400">210,135 Animaciones de Lottie</p>
+        </div>
+    </section>
+
+</body>
+</html>

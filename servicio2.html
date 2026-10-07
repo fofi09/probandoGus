@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JG Envíos - Hero Section</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ==========================================
+           1. ESTILOS GENERALES
+           ========================================== */
+        body {
+            overflow-x: hidden;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ==========================================
+           2. ESTILOS DEL LOADER
+           ========================================== */
+        #loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            z-index: 50; /* Por encima de todo */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .loader {
+            width: fit-content;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .truckWrapper {
+            width: 200px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            align-items: center;
+            justify-content: flex-end;
+            overflow-x: hidden;
+        }
+        
+        .truckBody {
+            width: 130px;
+            height: fit-content;
+            margin-bottom: 6px;
+            animation: motion 1s linear infinite;
+        }
+        
+        @keyframes motion {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(3px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .truckTires {
+            width: 130px;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 10px 0px 15px;
+            position: absolute;
+            bottom: 0;
+        }
+        .truckTires svg { width: 24px; }
+
+        .road {
+            width: 100%;
+            height: 1.5px;
+            background-color: #282828;
+            position: relative;
+            bottom: 0;
+            align-self: flex-end;
+            border-radius: 3px;
+        }
+        .road::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background-color: #282828;
+            right: -50%;
+            border-radius: 3px;
+            animation: roadAnimation 1.4s linear infinite;
+            border-left: 10px solid white;
+        }
+        .road::after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 100%;
+            background-color: #282828;
+            right: -65%;
+            border-radius: 3px;
+            animation: roadAnimation 1.4s linear infinite;
+            border-left: 4px solid white;
+        }
+
+        .lampPost {
+            position: absolute;
+            bottom: 0;
+            right: -90%;
+            height: 90px;
+            animation: roadAnimation 1.4s linear infinite;
+        }
+
+        @keyframes roadAnimation {
+            0% { transform: translateX(0px); }
+            100% { transform: translateX(-350px); }
+        }
+
+        /* Clases utilitarias para ocultar el loader con JS */
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px); /* Ligero efecto de subida al desaparecer */
+            pointer-events: none;
+        }
+
+        /* ==========================================
+           3. ESTILOS DEL CONTENIDO PRINCIPAL (Hero)
+           ========================================== */
+        
+        /* El contenido principal empieza oculto */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in 0.2s; /* Espera un poco a que el loader desaparezca */
+        }
+
+        /* Clase que añade JS para mostrar el contenido */
+        #main-content.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Animaciones Universales de Texto */
+        @keyframes slideInFromLeft {
+            0% { transform: translateX(-150%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromRight {
+            0% { transform: translateX(150%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Clases de animación aplicadas a los textos */
+        /* IMPORTANTE: Estas animaciones solo corren cuando un elemento padre tiene la clase .start-animations */
+        .start-animations .anim-jg-envios {
+            animation: slideInFromLeft 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .start-animations .anim-bienvenido {
+            opacity: 0; 
+            animation: slideInFromRight 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards;
+        }
+
+        .start-animations .anim-fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in 1.5s forwards;
+        }
+
+        /* ANIMACIONES EXCLUSIVAS PARA MÓVIL (Fondo Apagado/Oscurecido) */
+        @media (max-width: 767px) {
+            .start-animations .mobile-overlay-anim {
+                animation: dimOverlay 1.5s ease-out 0.5s forwards;
+            }
+        }
+
+        @keyframes dimOverlay {
+            0% { background-color: rgba(0, 0, 0, 0); }
+            100% { background-color: rgba(0, 0, 0, 0.5); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= LOADER ================= -->
+    <div id="loader-container">
+        <div class="loader">
+          <div class="truckWrapper">
+            <div class="truckBody">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 198 93" class="trucksvg">
+                <path stroke-width="3" stroke="#282828" fill="#F83D3D" d="M135 22.5H177.264C178.295 22.5 179.22 23.133 179.594 24.0939L192.33 56.8443C192.442 57.1332 192.5 57.4404 192.5 57.7504V89C192.5 90.3807 191.381 91.5 190 91.5H135C133.619 91.5 132.5 90.3807 132.5 89V25C132.5 23.6193 133.619 22.5 135 22.5Z"></path>
+                <path stroke-width="3" stroke="#282828" fill="#7D7C7C" d="M146 33.5H181.741C182.779 33.5 183.709 34.1415 184.078 35.112L190.538 52.112C191.16 53.748 189.951 55.5 188.201 55.5H146C144.619 55.5 143.5 54.3807 143.5 53V36C143.5 34.6193 144.619 33.5 146 33.5Z"></path>
+                <path stroke-width="2" stroke="#282828" fill="#282828" d="M150 65C150 65.39 149.763 65.8656 149.127 66.2893C148.499 66.7083 147.573 67 146.5 67C145.427 67 144.501 66.7083 143.873 66.2893C143.237 65.8656 143 65.39 143 65C143 64.61 143.237 64.1344 143.873 63.7107C144.501 63.2917 145.427 63 146.5 63C147.573 63 148.499 63.2917 149.127 63.7107C149.763 64.1344 150 64.61 150 65Z"></path>
+                <rect stroke-width="2" stroke="#282828" fill="#FFFCAB" rx="1" height="7" width="5" y="63" x="187"></rect>
+                <rect stroke-width="2" stroke="#282828" fill="#282828" rx="1" height="11" width="4" y="81" x="193"></rect>
+                <rect stroke-width="3" stroke="#282828" fill="#DFDFDF" rx="2.5" height="90" width="121" y="1.5" x="6.5"></rect>
+                <rect stroke-width="2" stroke="#282828" fill="#DFDFDF" rx="2" height="4" width="6" y="84" x="1"></rect>
+              </svg>
+            </div>
+            <div class="truckTires">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" class="tiresvg">
+                <circle stroke-width="3" stroke="#282828" fill="#282828" r="13.5" cy="15" cx="15"></circle>
+                <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" class="tiresvg">
+                <circle stroke-width="3" stroke="#282828" fill="#282828" r="13.5" cy="15" cx="15"></circle>
+                <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
+              </svg>
+            </div>
+            <div class="road"></div>
+        
+            <svg xml:space="preserve" viewBox="0 0 453.459 453.459" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" id="Capa_1" version="1.1" fill="#000000" class="lampPost">
+              <path d="M252.882,0c-37.781,0-68.686,29.953-70.245,67.358h-6.917v8.954c-26.109,2.163-45.463,10.011-45.463,19.366h9.993 c-1.65,5.146-2.507,10.54-2.507,16.017c0,28.956,23.558,52.514,52.514,52.514c28.956,0,52.514-23.558,52.514-52.514 c0-5.478-0.856-10.872-2.506-16.017h9.992c0-9.354-19.352-17.204-45.463-19.366v-8.954h-6.149C200.189,38.779,223.924,16,252.882,16 c29.952,0,54.32,24.368,54.32,54.32c0,28.774-11.078,37.009-25.105,47.437c-17.444,12.968-37.216,27.667-37.216,78.884v113.914 h-0.797c-5.068,0-9.174,4.108-9.174,9.177c0,2.844,1.293,5.383,3.321,7.066c-3.432,27.933-26.851,95.744-8.226,115.459v11.202h45.75 v-11.202c18.625-19.715-4.794-87.527-8.227-115.459c2.029-1.683,3.322-4.223,3.322-7.066c0-5.068-4.107-9.177-9.176-9.177h-0.795 V196.641c0-43.174,14.942-54.283,30.762-66.043c14.793-10.997,31.559-23.461,31.559-60.277C323.202,31.545,291.656,0,252.882,0z M232.77,111.694c0,23.442-19.071,42.514-42.514,42.514c-23.442,0-42.514-19.072-42.514-42.514c0-5.531,1.078-10.957,3.141-16.017 h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"></path>
+            </svg>
+          </div>
+        </div>
+    </div>
+
+
+    <!-- ================= CONTENIDO PRINCIPAL (Hero) ================= -->
+    <div id="main-content" class="flex justify-center p-4 md:p-8 pt-6 md:pt-10">
+        <header class="w-full max-w-7xl h-[80vh] min-h-[500px] bg-white shadow-xl overflow-hidden flex flex-col md:flex-row relative">
+            
+            <div class="relative z-10 w-full md:w-1/2 h-full flex flex-col justify-center items-center p-8 md:p-12 lg:p-16 overflow-hidden bg-transparent md:bg-white">
+                
+                <div class="text-center w-full">
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-blue-900 tracking-tight anim-jg-envios drop-shadow-sm">
+                        JG ENVÍOS
+                    </h1>
+                    
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-orange-500 mt-2 md:mt-4 anim-bienvenido">
+                        BIENVENIDO
+                    </h2>
+
+                    <p class="mt-6 text-white md:text-gray-600 font-medium md:font-normal text-base md:text-lg lg:text-xl anim-fade-in max-w-md mx-auto drop-shadow-md md:drop-shadow-none">
+                        Tu logística de encomiendas de confianza. Llegamos a donde necesites, rápido y seguro.
+                    </p>
+
+                    <div class="mt-8 anim-fade-in">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                            Cotizar Envío
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute inset-0 md:relative md:inset-auto w-full md:w-1/2 h-full z-0 bg-gray-100">
+                <img 
+                    src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?q=80&w=2070&auto=format&fit=crop" 
+                    alt="Camión de logística JG Envíos" 
+                    class="absolute inset-0 w-full h-full object-cover md:!filter-none"
+                />
+                
+                <div class="absolute inset-0 pointer-events-none mobile-overlay-anim md:!bg-none md:bg-gradient-to-r md:from-white md:via-transparent md:to-transparent opacity-100 md:opacity-20"></div>
+                <div class="hidden md:block absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+            </div>
+        </header>
+    </div>
+
+    <!-- ================= SECCIÓN DE SERVICIOS ================= -->
+    <section id="servicios" class="py-20 md:py-32 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Encabezado de la Sección -->
+            <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+                <h2 class="text-sm font-bold text-orange-500 tracking-wider uppercase mb-2">Lo que hacemos</h2>
+                <h3 class="text-3xl md:text-4xl font-extrabold text-blue-900 mb-4">Soluciones Logísticas a tu Medida</h3>
+                <div class="w-16 h-1 bg-orange-500 mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-600 text-base md:text-lg">
+                    Ofrecemos una amplia gama de servicios para asegurar que tu carga llegue a su destino de manera rápida, segura y eficiente.
+                </p>
+            </div>
+
+            <!-- Grid de Servicios (Ajustado para tarjetas más chicas) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto place-items-center">
+                
+                <!-- Tarjeta de Servicio 1 -->
+                <!-- Se agregó 'w-full max-w-[280px]', se redujo el padding a 'p-6', y se ajustaron los textos e iconos -->
+                <div class="w-full max-w-[280px] bg-white rounded-xl p-6 shadow-md hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-100 group cursor-pointer flex flex-col h-full">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                        <!-- Icono del rayo (Express) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-lg font-bold text-blue-900 mb-2">Envíos Express</h4>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed flex-grow">
+                        Entregas urgentes en menos de 24 horas para documentos y paquetería pequeña.
+                    </p>
+                    <div class="inline-flex items-center text-sm text-orange-500 font-semibold group-hover:text-orange-600 transition-colors mt-auto">
+                        Saber más
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5 transform group-hover:translate-x-1.5 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de Servicio 2 -->
+                <div class="w-full max-w-[280px] bg-white rounded-xl p-6 shadow-md hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-100 group cursor-pointer flex flex-col h-full">
+                    <div class="w-12 h-12 bg-orange-50 text-orange-500 rounded-xl flex items-center justify-center mb-4 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
+                        <!-- Icono de caja/paquete (Carga) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </div>
+                    <h4 class="text-lg font-bold text-blue-900 mb-2">Carga Pesada</h4>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed flex-grow">
+                        Transporte seguro para mercancías de gran volumen. Monitoreo por GPS 24/7.
+                    </p>
+                    <div class="inline-flex items-center text-sm text-orange-500 font-semibold group-hover:text-orange-600 transition-colors mt-auto">
+                        Saber más
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5 transform group-hover:translate-x-1.5 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de Servicio 3 -->
+                <div class="w-full max-w-[280px] bg-white rounded-xl p-6 shadow-md hover:shadow-xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-100 group cursor-pointer flex flex-col h-full">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                        <!-- Icono de escudo (Seguridad/Confianza) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-lg font-bold text-blue-900 mb-2">Logística Segura</h4>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed flex-grow">
+                        Distribución con los más altos estándares de seguridad e inventario en tiempo real.
+                    </p>
+                    <div class="inline-flex items-center text-sm text-orange-500 font-semibold group-hover:text-orange-600 transition-colors mt-auto">
+                        Saber más
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5 transform group-hover:translate-x-1.5 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= SCRIPT PARA GESTIONAR EL LOADER ================= -->
+    <script>
+        // Cuando la ventana termine de cargar completamente (incluyendo imágenes)
+        window.addEventListener('load', () => {
+            const loaderContainer = document.getElementById('loader-container');
+            const mainContent = document.getElementById('main-content');
+            
+            // Forzamos un mínimo de tiempo de carga de 2.5 segundos para que se aprecie la animación del camión.
+            // Si quieres que desaparezca inmediatamente apenas cargue, puedes poner 0 en lugar de 2500.
+            setTimeout(() => {
+                // 1. Ocultar el loader
+                loaderContainer.classList.add('loader-hidden');
+                
+                // 2. Mostrar el contenido principal
+                mainContent.classList.add('visible');
+
+                // 3. ¡Desencadenar las animaciones del Hero!
+                // Al añadir la clase 'start-animations', CSS sabe que debe empezar a reproducir las animaciones.
+                mainContent.classList.add('start-animations');
+
+                // 4. (Opcional) Limpieza: Quitar el loader del DOM después de que termine su transición de ocultamiento (0.5s)
+                setTimeout(() => {
+                    loaderContainer.remove();
+                }, 500); 
+
+            }, 2500); 
+        });
+    </script>
+</body>
+</html>

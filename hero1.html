@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JG Envíos - Hero Section</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Ocultar el desbordamiento horizontal */
+        body {
+            overflow-x: hidden;
+            background-color: #f3f4f6;
+        }
+
+        /* Animaciones Universales de Texto */
+        @keyframes slideInFromLeft {
+            0% { transform: translateX(-150%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromRight {
+            0% { transform: translateX(150%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Clases de animación aplicadas a los textos */
+        .anim-jg-envios {
+            animation: slideInFromLeft 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .anim-bienvenido {
+            opacity: 0; 
+            animation: slideInFromRight 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards;
+        }
+
+        .anim-fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in 1.5s forwards;
+        }
+
+        /* ANIMACIONES EXCLUSIVAS PARA MÓVIL (Fondo Apagado/Oscurecido) */
+        @media (max-width: 767px) {
+            /* Ya no necesitamos desaturar la imagen, quitamos mobile-img-anim */
+            
+            .mobile-overlay-anim {
+                /* Aplica una capa NEGRA semi-transparente para "apagar" el brillo */
+                animation: dimOverlay 1.5s ease-out 0.5s forwards;
+            }
+        }
+
+        /* Nueva animación para oscurecer (dimming) */
+        @keyframes dimOverlay {
+            0% { background-color: rgba(0, 0, 0, 0); }
+            100% { background-color: rgba(0, 0, 0, 0.5); } /* Capa negra al 50% */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8">
+
+    <!-- Contenedor del Hero -->
+    <header class="w-full max-w-7xl h-[80vh] min-h-[500px] bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row relative">
+        
+        <!-- MITAD IZQUIERDA (Escritorio) / FRENTE (Móvil): Textos y Animaciones -->
+        <!-- En móvil: bg-transparent para ver el fondo. En desktop: md:bg-white -->
+        <div class="relative z-10 w-full md:w-1/2 h-full flex flex-col justify-center items-center p-8 md:p-12 lg:p-16 overflow-hidden bg-transparent md:bg-white">
+            
+            <div class="text-center w-full">
+                <!-- Texto 1 -->
+                <!-- Agregué text-white en móvil para mejor contraste sobre fondo oscuro -->
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-blue-900 tracking-tight anim-jg-envios drop-shadow-sm">
+                    JG ENVÍOS
+                </h1>
+                
+                <!-- Texto 2 -->
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-orange-500 mt-2 md:mt-4 anim-bienvenido">
+                    BIENVENIDO
+                </h2>
+
+                <!-- Texto descriptivo -->
+                <!-- En móvil el texto ahora es blanco (text-white) para destacar sobre el fondo oscurecido, en desktop vuelve a gris (md:text-gray-600) -->
+                <p class="mt-6 text-white md:text-gray-600 font-medium md:font-normal text-base md:text-lg lg:text-xl anim-fade-in max-w-md mx-auto drop-shadow-md md:drop-shadow-none">
+                    Tu logística de encomiendas de confianza. Llegamos a donde necesites, rápido y seguro.
+                </p>
+
+                <!-- Botón -->
+                <div class="mt-8 anim-fade-in">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                        Cotizar Envío
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MITAD DERECHA (Escritorio) / FONDO (Móvil): Imagen -->
+        <!-- En móvil: absolute inset-0 (ocupa todo). En desktop: relative md:w-1/2 -->
+        <div class="absolute inset-0 md:relative md:inset-auto w-full md:w-1/2 h-full z-0 bg-gray-100">
+            
+            <!-- Quitamos la clase mobile-img-anim de aquí -->
+            <img 
+                src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?q=80&w=2070&auto=format&fit=crop" 
+                alt="Camión de logística JG Envíos" 
+                class="absolute inset-0 w-full h-full object-cover md:!filter-none"
+            />
+            
+            <!-- Capa superpuesta -->
+            <!-- En móvil: se activa la animación de oscurecimiento. En desktop: Gradiente sutil desde el borde -->
+            <div class="absolute inset-0 pointer-events-none mobile-overlay-anim md:!bg-none md:bg-gradient-to-r md:from-white md:via-transparent md:to-transparent opacity-100 md:opacity-20"></div>
+            
+            <!-- Corrección extra de gradiente para desktop para unir los cortes -->
+            <div class="hidden md:block absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+        </div>
+
+    </header>
+
+</body>
+</html>

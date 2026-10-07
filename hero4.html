@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Compacto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Forzamos que la altura total no pase del 100% de la pantalla */
+        body { height: 100vh; overflow: hidden; }
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Mitad y mitad exacto */
+            grid-template-rows: 1fr;
+            gap: 8px; /* Espacio mínimo */
+            height: 60vh; /* El bloque de imágenes ocupa el 60% de la pantalla */
+        }
+    </style>
+</head>
+<body class="bg-white p-2">
+
+    <!-- Header super compacto -->
+    <header class="flex justify-between items-center py-2 px-1">
+        <div class="font-bold text-lg">IconScout</div>
+        <button class="bg-gray-100 text-xs px-4 py-1 rounded-full">Acceso</button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="mt-2">
+        <h1 class="text-xl font-bold mb-2">tendencia</h1>
+        
+        <div class="grid-layout">
+            <!-- Imagen grande izquierda -->
+            <div class="bg-blue-50 rounded-lg flex items-center justify-center border">
+                [Imagen Principal]
+            </div>
+
+            <!-- Columna derecha con 3 pequeñas -->
+            <div class="grid grid-rows-3 gap-2">
+                <div class="bg-gray-100 rounded flex items-center justify-center border">Img 1</div>
+                <div class="bg-gray-100 rounded flex items-center justify-center border">Img 2</div>
+                <div class="bg-gray-100 rounded flex items-center justify-center border">Img 3</div>
+            </div>
+        </div>
+
+        <!-- Texto inferior sin ocupar mucho espacio -->
+        <div class="text-center mt-3">
+            <h2 class="font-bold text-sm">Business</h2>
+            <p class="text-xs text-gray-400">210,135 Animaciones de Lottie</p>
+        </div>
+    </section>
+
+</body>
+</html>

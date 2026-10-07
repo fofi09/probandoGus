@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>enviosJG - Sobre Mí</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Lucide Icons (para íconos en slides) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Configuración de Tailwind para usar la fuente Inter */
+        :root {
+            --color-primary: 29 78 216; /* blue-700 */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f9; /* Fondo muy claro */
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* 1. ANIMACIÓN DE LA CREDENCIAL - CAÍDA PENDULAR */
+        /* ------------------------------------------------------------------ */
+
+        /* ESTADO INICIAL: Posición fuera de pantalla antes de la animación. 
+            Aplicada al contenedor principal de la tarjeta. */
+        .credential-hidden {
+            transform: translateY(-200%); /* Comienza muy arriba */
+            opacity: 0;
+            transition: none; 
+        }
+
+        /* Keyframes para la caída pura y el efecto pendular (hang) */
+        @keyframes fall-and-hang {
+            0% {
+                transform: translateY(-200%);
+                opacity: 0;
+            }
+            70% {
+                /* Punto de llegada con velocidad de caída (ease-in) */
+                transform: translateY(0);
+                opacity: 1;
+                animation-timing-function: ease-in;
+            }
+            85% {
+                /* Ligero balanceo a la izquierda */
+                transform: translateY(0) translateX(-2%) rotate(2deg);
+            }
+            100% {
+                /* Posición final centrada y recta */
+                transform: translateY(0) translateX(0) rotate(0deg);
+            }
+        }
+
+        /* Clase que aplica la animación (duración 1.8s para que sea visible) */
+        .credential-animate {
+            animation: fall-and-hang 1.8s forwards;
+        }
+        
+        /* ------------------------------------------------------------------ */
+        /* 2. ESTILOS DE LA CREDENCIAL - FLIP 3D */
+        /* ------------------------------------------------------------------ */
+
+        /* El contenedor de la tarjeta que rota (recibe la clase 'flipped') */
+        .card-flip-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 1.5s ease-in-out; /* Transición suave para el giro */
+            transform-style: preserve-3d; /* Permite que los hijos se posicionen en 3D */
+            /* El origen de la rotación para el efecto "cuelgue" se aplica en el HTML (origin-top) */
+        }
+
+        /* Estado inicial del contenedor antes de caer y girar */
+        .card-flip-wrapper {
+            perspective: 1000px; /* Necesario para el efecto 3D */
+            height: 100%;
+            width: 100%;
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Oculta la cara cuando está girada 180deg */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1); /* shadow-2xl */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* IMPORTANTE: Establecer overflow hidden para evitar que el contenido de la bio se desborde al girar */
+            overflow: hidden; 
+        }
+
+        .card-front {
+            transform: rotateY(0deg);
+            background-color: white; /* Color de fondo para asegurar que no se vea el fondo a través */
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background-color: white; /* Cambiado a blanco para el contenido de la tarjeta */
+            color: #1f2937; /* Gray-800 */
+            /* Se mantiene 'display: block' y se asegura 'overflow-y: auto' */
+            display: block;
+            overflow-y: auto; 
+        }
+        
+        /* Estilos específicos para el contenido de la tarjeta de identificación */
+        .card-back .card-header {
+            border-bottom: 2px solid #2563eb; /* blue-600 */
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .card-back .profile-image {
+            width: 96px; /* w-24 */
+            height: 96px; /* h-24 */
+        }
+        /* Ajuste de color del texto para el nuevo fondo de tarjeta blanco */
+        .card-back p, .card-back div, .card-back h2, .card-back h1 {
+            color: inherit; /* Hereda el color del padre (gray-800) */
+        }
+
+        /* Clase aplicada por JS para hacer el giro */
+        .flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* 3. ESTILOS GENERALES Y RESPONSIVE DEL CARRUSEL */
+        /* ------------------------------------------------------------------ */
+
+        /* Altura adaptativa: Mínimo 400px para móviles, 65vh para escritorio (AUMENTADO) */
+        .carousel-container {
+            min-height: 400px; 
+            height: 65vh; /* ALTURA AUMENTADA */
+            max-height: 700px; /* Limitamos la altura en pantallas muy grandes */
+        }
+
+        .slide {
+            transition: opacity 0.5s ease-in-out;
+            background-color: #fcfcfc; 
+        }
+
+        /* CORRECCIÓN: Aplica scroll al contenedor de contenido de los slides de texto si se desborda */
+        .slide-content-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto; /* Scroll para el contenido que no sea la tarjeta */
+            /* Se usa 2rem como default para que el contenido no se pegue a los bordes en móviles grandes */
+            padding: 2rem; 
+        }
+
+        /* Ajustes de padding en móvil para el wrapper (anteriormente estaba en el contenido interno) */
+        @media (min-width: 768px) {
+            .slide-content-wrapper {
+                /* ARREGLO TITULO: Padding top/bottom mínimo (0.5rem) combinado con la eliminación de justify-center. */
+                padding: 0.5rem 2.5rem; 
+            }
+        }
+        
+        /* Asegurar que el contenido del slide 3 se vea bien en móvil */
+        @media (max-width: 768px) {
+            
+            /* PADDING Y TÍTULO: Asegura que el título H3 tenga espacio arriba */
+            .slide-content-wrapper {
+                padding: 1rem !important; /* Mínimo necesario en móvil/tablet */
+            }
+            
+            /* Título principal del Slide 3 */
+            .slide-content-wrapper h3 {
+                font-size: 1.5rem; 
+                margin-bottom: 0.5rem; 
+            }
+
+            .grid-cols-1-md-2 {
+                grid-template-columns: 1fr; /* Columna única en móvil */
+            }
+            
+            /* FUENTE: Ajusta el tamaño de la fuente para el bloque de Experiencia */
+            .feat-element p:first-child {
+                font-size: 1.75rem !important; /* El número +10 se ve legible y no se desborda */
+                line-height: 1.2; 
+            }
+            
+            /* Ajusta el texto "Años de Experiencia" y la descripción */
+            .feat-element p {
+                font-size: 0.875rem; /* text-sm para todo el texto descriptivo en móvil */
+            }
+        }
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <section id="about-me" class="max-w-4xl mx-auto py-8 md:py-16">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-8 text-center">
+            Sobre <span class="text-blue-700">enviosJG</span>
+        </h2>
+
+        <!-- CAROUSEL CONTAINER -->
+        <div id="carousel" class="relative w-full bg-white shadow-2xl rounded-2xl overflow-hidden carousel-container border-t-8 border-blue-700">
+            
+            <!-- Slides Container -->
+            <div id="slides-container" class="w-full h-full relative">
+                <!-- Slides will be injected here by JavaScript -->
+            </div>
+
+            <!-- Indicators (Dots) -->
+            <div id="indicators-container" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+                <!-- Dots will be injected here by JavaScript -->
+            </div>
+
+        </div>
+
+    </section>
+
+    <script>
+        // Inicializa los íconos de Lucide
+        lucide.createIcons();
+
+        // ----------------------------------------------------
+        // 1. CONFIGURACIÓN DE DATOS DEL CARRUSEL
+        // ----------------------------------------------------
+
+        // La ruta del archivo subido (usamos el nombre de archivo accesible)
+        const credentialImagePath = 'gus1.jpg';
+
+        // Contenido de la cara trasera (HTML completo de la tarjeta de identificación)
+        const cardBackContent = `
+            <div class="id-card p-4 md:p-6 w-full h-full overflow-y-auto">
+                
+                <!-- Encabezado de la tarjeta -->
+                <header class="card-header flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-800">
+                        Tarjeta de Identificación
+                    </h2>
+                    <!-- Icono de escudo, usando un SVG de Tailwind -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6.25l2.77 2.77a.75.75 0 001.06-1.06L12.75 12.44V6z" clip-rule="evenodd" />
+                        <path d="M11.832 9.429a.75.75 0 011.085.156l1.256 1.745a.75.75 0 01-.767 1.157L11.5 12.553V9.75a.75.75 0 01.332-.321zM9.5 12.75a.75.75 0 01-.75.75h-1a.75.75 0 010-1.5h1a.75.75 0 01.75.75zM15.5 12.75a.75.75 0 01-.75.75h1a.75.75 0 010-1.5h-1a.75.75 0 01.75.75z" />
+                    </svg>
+                </header>
+
+                <!-- Contenido principal: Foto y detalles -->
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4">
+                    
+                    <!-- Placeholder de la foto (NO SE TOCA PARA MANTENER LA IMAGEN TALL CUAL) -->
+                    <div class="profile-image w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-gray-200 rounded-full overflow-hidden border-4 border-blue-500 shadow-md">
+                        <!-- Reemplazamos la imagen con un placeholder específico -->
+                        <img src="https://placehold.co/112x112/2563eb/ffffff?text=J" 
+                            alt="Foto de perfil de Javier" 
+                            class="w-full h-full object-cover"
+                            onerror="this.onerror=null;this.src='https://placehold.co/112x112/2563eb/ffffff?text=J';"
+                        >
+                    </div>
+
+                    <!-- Datos del perfil -->
+                    <div class="text-center sm:text-left pt-2">
+                        <p class="text-2xl font-extrabold text-blue-700 leading-tight">Javier Envíos</p>
+                        <p class="text-sm text-gray-600 font-semibold mb-2">Fundador & CEO de Envíos Rápidos</p>
+                        
+                        <div class="mt-3 space-y-1 text-sm text-gray-700">
+                            <p class="flex items-center justify-center sm:justify-start">
+                                <!-- Icono de Ubicación -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                                </svg>
+                                España (Envío a todo el mundo)
+                            </p>
+                            <p class="flex items-center justify-center sm:justify-start">
+                                <!-- Icono de Calendario -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                                </svg>
+                                Desde 2018
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bio/Descripción -->
+                <div class="mt-6 pt-4 border-t border-gray-200">
+                    <p class="text-sm font-semibold text-gray-800 mb-2">Mi Misión:</p>
+                    <p class="text-gray-600 text-base leading-normal">
+                        <!-- 'leading-normal' se mantiene para optimizar espacio. -->
+                        Soy **Javier**, y mi objetivo es asegurar que tus pedidos lleguen a su destino con la máxima rapidez y seguridad, sin importar la distancia. Me encargo de toda la logística para que tú solo tengas que preocuparte de tu producto.
+                    </p>
+                </div>
+
+                <!-- Botón de Contacto -->
+                <div class="mt-6 text-center">
+                    <button class="w-full py-2 px-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300 shadow-lg transform hover:scale-[1.02] active:scale-[0.98]">
+                        Contactar para un Servicio
+                    </button>
+                </div>
+            </div>
+        `;
+
+
+        const slidesData = [
+            { 
+                type: 'credential', 
+                // CONTENIDO ACTUALIZADO: Estructura de tarjeta 3D Flip
+                content: `
+                    <div class="flex items-center justify-center w-full h-full">
+                        <div class="card-flip-wrapper relative max-w-xs w-full" style="height: 500px; max-height: 80vh;">
+                            <!-- El contenedor que cae y luego gira -->
+                            <div class="card-flip-container origin-top" id="credential-card-0">
+                                
+                                <!-- Cara Frontal (La Imagen) -->
+                                <div class="card-face card-front">
+                                    <img src="${credentialImagePath}" alt="Credencial de Identificación de Gustavo (enviosJG)" 
+                                            class="w-full h-auto rounded-lg" 
+                                            onerror="this.onerror=null;this.src='https://placehold.co/300x500/0033A0/FFFFFF?text=Credencial+enviosJG+Cargando';" 
+                                    />
+                                </div>
+                                
+                                <!-- Cara Trasera (El contenido de la tarjeta de identificación) -->
+                                <div class="card-face card-back">
+                                    ${cardBackContent}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- TEXTO ELIMINADO: Se quitó "El inicio de nuestra trayectoria." para no tapar los indicadores -->
+                    </div>
+                `
+            },
+            {
+                type: 'text',
+                title: 'Introducción',
+                content: `
+                    <!-- Los slides de texto usan el wrapper para manejar el scroll y padding -->
+                    <!-- REMOVIDO: justify-center para evitar clipping del título en vista previa -->
+                    <div class="slide-content-wrapper text-center flex flex-col items-center h-full">
+                        <h3 class="text-4xl md:text-6xl font-extrabold text-blue-700 mb-4 tracking-tight">
+                            Bienvenido a enviosJG.
+                        </h3>
+                        <p class="text-lg md:text-xl text-gray-700 max-w-xl mx-auto font-medium">
+                            Conoce nuestra historia, valores y por qué somos tu mejor opción para cada envío.
+                        </p>
+                    </div>
+                `
+            },
+            {
+                type: 'text',
+                title: 'Experiencia y Hitos',
+                content: `
+                    <!-- Slide 3: El wrapper maneja el scroll y padding. -->
+                    <!-- REMOVIDO: justify-center para asegurar que el título empiece arriba y sea visible -->
+                    <div class="slide-content-wrapper text-left flex flex-col h-full slide-content-3">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 border-blue-200 pb-2">Nuestra Trayectoria y Compromiso</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 grid-cols-1-md-2">
+                            <!-- Elemento Destacado 1 (Experiencia) -->
+                            <div class="p-6 bg-blue-50 rounded-xl shadow-md border-l-4 border-blue-700 feat-element">
+                                <p class="text-5xl font-extrabold text-blue-700 mb-2">+10</p>
+                                <p class="text-xl font-semibold text-gray-700">Años de Experiencia</p>
+                                <p class="text-gray-600 mt-1">en la ruta, conectando tus necesidades con soluciones de envío eficientes.</p>
+                            </div>
+
+                            <!-- Elemento Destacado 2 (Hitos) -->
+                            <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-gray-400">
+                                <p class="text-2xl font-bold text-gray-800 mb-4">Hitos Clave</p>
+                                <ul class="space-y-3 text-gray-700 list-disc pl-5">
+                                    <li><span class="font-semibold">Más de 5000</span> entregas exitosas a lo largo del país.</li>
+                                    <li>Especialistas en logística de <span class="font-semibold">última milla</span> para e-commerce.</li>
+                                    <li>Expansión a <span class="font-semibold">5 regiones clave</span>, garantizando cobertura y rapidez.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'text',
+                title: 'Valores y Misión',
+                content: `
+                    <!-- REMOVIDO: justify-center para evitar clipping del título en vista previa -->
+                    <div class="slide-content-wrapper text-center flex flex-col items-center h-full">
+                        <div class="mb-6 text-blue-700">
+                            <i data-lucide="handshake" class="w-16 h-16 mx-auto mb-4"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">Nuestros Pilares: Confianza en Cada Envío</h3>
+                        
+                        <p class="text-xl font-semibold text-blue-700 mb-6 max-w-2xl mx-auto">
+                            Transparencia, Rapidez y Seguridad: Los principios que guían cada paso en enviosJG.
+                        </p>
+
+                        <p class="text-md text-gray-600 max-w-xl mx-auto">
+                            <span class="font-bold">Misión Breve:</span> Simplificamos tus procesos de envío, permitiéndote concentrarte en lo que realmente importa: tu negocio y tus clientes.
+                        </p>
+                    </div>
+                `
+            }
+        ];
+
+        // ----------------------------------------------------
+        // 2. LÓGICA DEL CARRUSEL
+        // ----------------------------------------------------
+
+        let currentSlide = 0;
+        const totalSlides = slidesData.length;
+
+        const slidesContainer = document.getElementById('slides-container');
+        const indicatorsContainer = document.getElementById('indicators-container');
+        
+        // Duración de la animación de caída (debe coincidir con CSS)
+        const FALL_DURATION_MS = 1800; 
+        // Retardo solicitado después de la caída (2 segundos)
+        const POST_FALL_DELAY_MS = 2000;
+        
+        // Listener para el fin de la animación. Debe ser global o manejado dentro de la función de render.
+        let animationEndListener = null;
+
+
+        /**
+         * Aplica la animación de caída al primer slide y programa el flip 3D.
+         * @param {HTMLElement} slideElement El div del slide.
+         */
+        function animateCredentialDrop(slideElement) {
+            // Objetivo: el nuevo contenedor de la tarjeta con ID
+            const cardContainer = slideElement.querySelector('#credential-card-0');
+            
+            if (cardContainer) {
+                // 1. Limpieza de listeners anteriores
+                if (animationEndListener) {
+                    cardContainer.removeEventListener('animationend', animationEndListener);
+                    animationEndListener = null;
+                }
+                
+                // 2. Preparación y limpieza de clases
+                cardContainer.classList.remove('flipped'); // Asegura que no esté volteada
+                cardContainer.classList.remove('credential-animate'); // Reinicia la animación si ya se ejecutó
+                cardContainer.classList.add('credential-hidden'); // Aplica el estado inicial (oculto)
+                
+                // 3. Definir el listener de animación
+                animationEndListener = (event) => {
+                    // Solo actuar si es la animación de caída (para evitar conflictos con otras transiciones)
+                    if (event.animationName !== 'fall-and-hang') return;
+
+                    cardContainer.removeEventListener('animationend', animationEndListener);
+                    animationEndListener = null; // Limpiar después de su uso
+                    
+                    // A. Mantener la posición final y limpiar la clase de animación para que no interfiera con el giro 3D
+                    cardContainer.classList.remove('credential-animate');
+                    
+                    // B. Programar el FLIP 3D después de 2 segundos de pausa
+                    setTimeout(() => {
+                        cardContainer.classList.add('flipped');
+                    }, POST_FALL_DELAY_MS); 
+                };
+
+                // Agregamos el listener *antes* de iniciar la animación
+                cardContainer.addEventListener('animationend', animationEndListener);
+
+                // 4. Forzar Reflow para que el navegador registre la posición 'initial'
+                void cardContainer.offsetWidth; 
+                
+                // 5. Remover el estado inicial y aplicar la animación de caída
+                cardContainer.classList.remove('credential-hidden');
+                cardContainer.classList.add('credential-animate');
+            }
+        }
+
+        /**
+         * Renders all slides and indicators and manages the current view.
+         */
+        function renderCarousel() {
+            // Initial rendering of slides if they don't exist
+            if (slidesContainer.children.length === 0) {
+                slidesData.forEach((slide, index) => {
+                    const slideDiv = document.createElement('div');
+                    // Usamos padding adaptativo en el contenedor del slide
+                    slideDiv.className = `slide absolute top-0 left-0 w-full h-full bg-white transition-opacity duration-500`;
+                    
+                    // NOTA: Se eliminó el padding del slideDiv aquí
+                    
+                    slideDiv.innerHTML = slide.content;
+                    slideDiv.style.opacity = 0;
+                    slideDiv.style.zIndex = 0;
+                    
+                    // Apply the initial hidden class to the card container in Slide 1
+                    if (index === 0) {
+                           const cardContainer = slideDiv.querySelector('#credential-card-0');
+                           if (cardContainer) cardContainer.classList.add('credential-hidden');
+                    }
+
+                    slidesContainer.appendChild(slideDiv);
+                    lucide.createIcons();
+                });
+            }
+            
+            // Transition visibility
+            Array.from(slidesContainer.children).forEach((slideDiv, index) => {
+                const isActive = index === currentSlide;
+                slideDiv.style.opacity = isActive ? 1 : 0;
+                slideDiv.style.zIndex = isActive ? 1 : 0;
+            });
+            
+            // Trigger the animation for Slide 1 if active
+            if (currentSlide === 0) {
+                // Se programa la animación ligeramente después de asegurar que el slide es visible
+                setTimeout(() => {
+                    animateCredentialDrop(slidesContainer.children[0]);
+                }, 100); 
+            } else {
+                // Cuando cambiamos a otro slide, aseguramos que la tarjeta en slide 0 se reinicie 
+                // para que la animación se dispare correctamente al volver.
+                const cardContainer = slidesContainer.children[0].querySelector('#credential-card-0');
+                if (cardContainer) {
+                    cardContainer.classList.remove('credential-animate');
+                    cardContainer.classList.remove('flipped');
+                    // Remover listener de seguridad
+                    if (animationEndListener) {
+                        cardContainer.removeEventListener('animationend', animationEndListener);
+                        animationEndListener = null;
+                    }
+                }
+            }
+
+            // Render/Update Indicators (Dots)
+            indicatorsContainer.innerHTML = ''; 
+            slidesData.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.className = `w-3 h-3 rounded-full transition-colors duration-300 shadow-inner`;
+                
+                if (index === currentSlide) {
+                    dot.classList.add('bg-blue-700');
+                } else {
+                    dot.classList.add('bg-gray-300', 'hover:bg-gray-400');
+                }
+
+                dot.setAttribute('aria-label', `Ir al slide ${index + 1}`);
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+                indicatorsContainer.appendChild(dot);
+            });
+        }
+
+        /**
+         * Transitions to a specific slide index.
+         * @param {number} newIndex The index of the slide to show.
+         * @param {number} newIndex The index of the slide to show.
+         */
+        function goToSlide(newIndex) {
+            if (newIndex < 0 || newIndex >= totalSlides || newIndex === currentSlide) {
+                return;
+            }
+            
+            currentSlide = newIndex;
+            renderCarousel();
+        }
+
+        // ----------------------------------------------------
+        // 3. INICIALIZACIÓN
+        // ----------------------------------------------------
+        window.onload = () => {
+            // Iniciar el carrusel en el primer slide (donde la animación ocurre)
+            renderCarousel();
+        };
+
+    </script>
+</body>
+</html>

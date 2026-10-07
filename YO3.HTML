@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>enviosJG - Sobre Mí</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Lucide Icons (para íconos en slides) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Configuración de Tailwind para usar la fuente Inter */
+        :root {
+            --color-primary: 29 78 216; /* blue-700 */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f9; /* Fondo muy claro */
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* 1. ANIMACIÓN DE LA CREDENCIAL - CAÍDA PENDULAR */
+        /* ------------------------------------------------------------------ */
+
+        /* ESTADO INICIAL: Posición fuera de pantalla antes de la animación */
+        .credential-hidden {
+            transform: translateY(-200%); /* Comienza muy arriba */
+            opacity: 0;
+            transition: none; 
+        }
+
+        /* Keyframes para la caída pura y el efecto pendular (hang) */
+        @keyframes fall-and-hang {
+            0% {
+                transform: translateY(-200%);
+                opacity: 0;
+            }
+            70% {
+                /* Punto de llegada con velocidad de caída (ease-in) */
+                transform: translateY(0);
+                opacity: 1;
+                animation-timing-function: ease-in;
+            }
+            85% {
+                /* Ligero balanceo a la izquierda */
+                transform: translateY(0) translateX(-2%) rotate(2deg);
+            }
+            100% {
+                /* Posición final centrada y recta */
+                transform: translateY(0) translateX(0) rotate(0deg);
+            }
+        }
+
+        /* Clase que aplica la animación (duración 1.8s para que sea visible) */
+        .credential-animate {
+            animation: fall-and-hang 1.8s forwards;
+        }
+        
+        /* ------------------------------------------------------------------ */
+        /* 1b. ANIMACIÓN DEL TEXTO (NUEVO) */
+        /* ------------------------------------------------------------------ */
+        @keyframes fade-in-delay {
+            0% { opacity: 0; transform: translateY(10px); }
+            /* Espera a que la credencial caiga (70% de 1.8s) */
+            70% { opacity: 0; transform: translateY(10px); } 
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .text-fade-in {
+            /* Usa la misma duración que la credencial para sincronizar */
+            animation: fade-in-delay 1.8s forwards ease-out;
+            opacity: 0; /* Empieza oculto */
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* 2. ESTILOS GENERALES Y RESPONSIVE DEL CARRUSEL */
+        /* ------------------------------------------------------------------ */
+
+        /* Altura adaptativa: Mínimo 400px para móviles, 60vh para escritorio */
+        .carousel-container {
+            min-height: 400px; 
+            height: 60vh; 
+            max-height: 700px; /* Limitamos la altura en pantallas muy grandes */
+        }
+
+        .slide {
+            transition: opacity 0.5s ease-in-out;
+            background-color: #fcfcfc; 
+        }
+        
+        /* Asegurar que el contenido del slide 3 se vea bien en móvil */
+        @media (max-width: 768px) {
+            .slide-content-3 {
+                padding: 2rem 1rem; /* Más compacto en móvil */
+            }
+            .grid-cols-1-md-2 {
+                grid-template-columns: 1fr; /* Columna única en móvil */
+            }
+            .feat-element p {
+                font-size: 3rem; /* Reducir el tamaño del número grande */
+            }
+        }
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <section id="about-me" class="max-w-4xl mx-auto py-8 md:py-16">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-8 text-center">
+            Sobre <span class="text-blue-700">enviosJG</span>
+        </h2>
+
+        <!-- CAROUSEL CONTAINER -->
+        <div id="carousel" class="relative w-full bg-white shadow-2xl rounded-2xl overflow-hidden carousel-container border-t-8 border-blue-700">
+            
+            <!-- Slides Container -->
+            <div id="slides-container" class="w-full h-full relative">
+                <!-- Slides will be injected here by JavaScript -->
+            </div>
+
+            <!-- CAMBIO: Botones de flecha eliminados -->
+
+            <!-- Indicators (Dots) - Estos sí se quedan -->
+            <div id="indicators-container" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+                <!-- Dots will be injected here by JavaScript -->
+            </div>
+
+        </div>
+
+    </section>
+
+    <script>
+        // Inicializa los íconos de Lucide
+        lucide.createIcons();
+
+        // ----------------------------------------------------
+        // 1. CONFIGURACIÓN DE DATOS DEL CARRUSEL
+        // ----------------------------------------------------
+
+        // La ruta del archivo subido (usamos el nombre de archivo accesible)
+        const credentialImagePath = 'gus1.jpg';
+
+        const slidesData = [
+            { 
+                type: 'credential', 
+                // CONTENIDO AJUSTADO: Se eliminó el padding extra del contenedor de la imagen para centrar solo la imagen.
+                content: `
+                    <div class="flex flex-col md:flex-row items-center justify-center w-full h-full p-8 gap-8">
+                        
+                        <!-- Columna 1: Texto "Hola" (Aparece después) -->
+                        <!-- CAMBIO: md:order-1 -> md:order-2 (Ahora va a la derecha en desktop) -->
+                        <div class="w-full md:w-1/2 text-center md:text-left order-2 md:order-2">
+                            <h3 class="text-5xl lg:text-6xl font-extrabold text-gray-800 text-fade-in">
+                                ¡Hola!
+                            </h3>
+                            <p class="text-xl text-gray-600 text-fade-in" style="animation-delay: 0.15s;">
+                                Te presento al fundador.
+                            </p>
+                        </div>
+
+                        <!-- Columna 2: Imagen (Animada) -->
+                        <!-- CAMBIO: md:order-2 -> md:order-1 (Ahora va a la izquierda en desktop) -->
+                        <div class="w-full md:w-1/2 flex justify-center md:justify-center order-1 md:order-1">
+                            <div class="relative max-w-xs w-full">
+                                <!-- Image element with ID for animation targeting -->
+                                <!-- La clase credential-hidden se aplica en JS -->
+                                <img src="${credentialImagePath}" alt="Credencial de Identificación de Gustavo (enviosJG)" 
+                                     class="w-full h-auto rounded-lg shadow-2xl origin-top" 
+                                     id="credential-img-0"
+                                     onerror="this.onerror=null;this.src='https://placehold.co/300x500/0033A0/FFFFFF?text=Credencial+enviosJG+Cargando';" 
+                                />
+                                <p class="mt-4 text-center text-gray-500 text-sm">El inicio de nuestra trayectoria.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'text',
+                title: 'Valores y Misión',
+                content: `
+                    <div class="p-8 md:p-12 text-center flex flex-col items-center justify-center h-full">
+                        <div class="mb-6 text-blue-700">
+                            <i data-lucide="handshake" class="w-16 h-16 mx-auto mb-4"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">Nuestros Pilares: Confianza en Cada Envío</h3>
+                        
+                        <p class="text-xl font-semibold text-blue-700 mb-6 max-w-2xl mx-auto">
+                            Transparencia, Rapidez y Seguridad: Los principios que guían cada paso en enviosJG.
+                        </p>
+
+                        <p class="text-md text-gray-600 max-w-xl mx-auto">
+                            <span class="font-bold">Misión Breve:</span> Simplificamos tus procesos de envío, permitiéndote concentrarte en lo que realmente importa: tu negocio y tus clientes.
+                        </p>
+                    </div>
+                `
+            }
+        ];
+
+        // ----------------------------------------------------
+        // 2. LÓGICA DEL CARRUSEL
+        // ----------------------------------------------------
+
+        let currentSlide = 0;
+        const totalSlides = slidesData.length;
+
+        const slidesContainer = document.getElementById('slides-container');
+        const indicatorsContainer = document.getElementById('indicators-container');
+
+        // CAMBIO: Variables de botones de flecha eliminadas.
+        // const prevBtn = document.getElementById('prev-btn');
+        // const nextBtn = document.getElementById('next-btn');
+
+
+        /**
+         * Aplica la animación de caída al primer slide.
+         * @param {HTMLElement} slideElement El div del slide.
+         */
+        function animateCredentialDrop(slideElement) {
+            const img = slideElement.querySelector('#credential-img-0');
+            if (img) {
+                // 1. Aseguramos el estado inicial (oculto/fuera de pantalla)
+                img.classList.add('credential-hidden');
+                
+                // 2. Forzar Reflow: CRUCIAL para que el navegador registre la posición 'initial'
+                void img.offsetWidth; 
+                
+                // 3. Remover el estado inicial y aplicar la animación
+                img.classList.remove('credential-hidden');
+                img.classList.add('credential-animate');
+            }
+        }
+
+        /**
+         * Renders all slides and indicators and manages the current view.
+         */
+        function renderCarousel() {
+            // Initial rendering of slides if they don't exist
+            if (slidesContainer.children.length === 0) {
+                slidesData.forEach((slide, index) => {
+                    const slideDiv = document.createElement('div');
+                    // Usamos padding adaptativo en el contenedor del slide
+                    slideDiv.className = `slide absolute top-0 left-0 w-full h-full p-4 md:p-12 bg-white transition-opacity duration-500`;
+                    // Ajuste solo para el slide 1: si es el slide de la credencial, usar un padding menor para maximizar el área de animación.
+                    if (index === 0) {
+                        slideDiv.classList.remove('p-4', 'md:p-12');
+                        slideDiv.classList.add('p-2');
+                    }
+
+                    slideDiv.innerHTML = slide.content;
+                    slideDiv.style.opacity = 0;
+                    slideDiv.style.zIndex = 0;
+                    
+                    // Apply the initial hidden class to the image in Slide 1
+                    if (index === 0) {
+                         const img = slideDiv.querySelector('#credential-img-0');
+                         if (img) img.classList.add('credential-hidden');
+                    }
+
+                    slidesContainer.appendChild(slideDiv);
+                    lucide.createIcons();
+                });
+            }
+            
+            // Transition visibility
+            Array.from(slidesContainer.children).forEach((slideDiv, index) => {
+                const isActive = index === currentSlide;
+                slideDiv.style.opacity = isActive ? 1 : 0;
+                slideDiv.style.zIndex = isActive ? 1 : 0;
+            });
+            
+            // Trigger the animation for Slide 1 if active
+            if (currentSlide === 0) {
+                // Ensure the animation class is applied after the slide is visible
+                setTimeout(() => {
+                    animateCredentialDrop(slidesContainer.children[0]);
+                }, 100); 
+            } else {
+                // Remove the animation class when switching to other slides to allow re-triggering later
+                const img = slidesContainer.children[0].querySelector('#credential-img-0');
+                if (img) img.classList.remove('credential-animate');
+            }
+
+            // Render/Update Indicators (Dots)
+            indicatorsContainer.innerHTML = ''; 
+            slidesData.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.className = `w-3 h-3 rounded-full transition-colors duration-300 shadow-inner`;
+                
+                // --- CORRECCIÓN ---
+                // El error era porque 'bg-gray-300 hover:bg-gray-400' es una cadena con espacio.
+                // classList.add() no puede procesar eso.
+                // Lo separamos en un if/else para agregar las clases correctamente.
+                if (index === currentSlide) {
+                    dot.classList.add('bg-blue-700');
+                } else {
+                    // Usamos argumentos separados para múltiples clases
+                    dot.classList.add('bg-gray-300', 'hover:bg-gray-400');
+                }
+                // --- FIN DE LA CORRECCIÓN ---
+
+                dot.setAttribute('aria-label', `Ir al slide ${index + 1}`);
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+                indicatorsContainer.appendChild(dot);
+            });
+
+
+            // CAMBIO: Actualización de estado de botones eliminada.
+            // prevBtn.disabled = currentSlide === 0;
+            // nextBtn.disabled = currentSlide === totalSlides - 1;
+        }
+
+        /**
+         * Transitions to a specific slide index.
+         * @param {number} newIndex The index of the slide to show.
+         */
+        function goToSlide(newIndex) {
+            if (newIndex < 0 || newIndex >= totalSlides || newIndex === currentSlide) {
+                return;
+            }
+            
+            currentSlide = newIndex;
+            renderCarousel();
+        }
+
+        // CAMBIO: Eventos de botones de navegación eliminados.
+        // prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+        // nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+        // ----------------------------------------------------
+        // 3. INICIALIZACIÓN
+        // ----------------------------------------------------
+        window.onload = () => {
+             // Iniciar el carrusel en el primer slide (donde la animación ocurre)
+            renderCarousel();
+        };
+
+    </script>
+</body>
+</html>

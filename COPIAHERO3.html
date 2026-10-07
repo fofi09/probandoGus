@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hero Definitivo Responsive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Bloqueo absoluto de scroll para asegurar que sea un Hero completo sin barras */
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="w-full h-full">
+
+    <!-- CONTENEDOR HERO PRINCIPAL -->
+    <!-- Usamos un fondo de CSS nativo (background-image) que es la forma más infalible para que cualquier foto encaje como en el celu -->
+    <section class="relative w-full h-full flex flex-col justify-between p-4 sm:p-8 md:p-12 overflow-hidden bg-center bg-cover bg-no-repeat" 
+             style="background-image: url('hero123.png');">
+        
+        <!-- Capa de sombra ligera opcional para que las letras resalten sobre la foto sin taparla -->
+        <div class="absolute inset-0 bg-black/20 pointer-events-none"></div>
+
+        <!-- ENCABEZADO SUPERIOR -->
+        <header class="relative z-10 flex justify-between items-center w-full max-w-7xl mx-auto">
+            <div class="text-white font-extrabold text-lg sm:text-2xl drop-shadow-md tracking-wide">
+                LogiExpress
+            </div>
+            <button class="bg-white/90 hover:bg-white text-gray-900 font-semibold px-4 py-2 rounded-xl shadow-lg transition text-xs sm:text-sm active:scale-95">
+                Acceder
+            </button>
+        </header>
+
+        <!-- TEXTO Y CONTENIDO PRINCIPAL (Flotando arriba de la imagen) -->
+        <div class="relative z-10 max-w-3xl mx-auto md:mx-0 text-center md:text-left my-auto text-white px-2">
+            <span class="inline-block bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 shadow">
+                Logística y Envíos
+            </span>
+            <h1 class="text-2xl sm:text-4xl md:text-6xl font-black tracking-tight leading-tight mb-3 drop-shadow-lg">
+                Envíos rápidos a la puerta de tu casa
+            </h1>
+            <p class="text-xs sm:text-sm md:text-lg text-gray-100 mb-6 drop-shadow-md max-w-xl">
+                Controla cada etapa del trayecto de tus paquetes en tiempo real con total seguridad y eficiencia.
+            </p>
+            <div>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow-xl transition transform active:scale-95 text-sm">
+                    Ver Estado de Envío
+                </button>
+            </div>
+        </div>
+
+        <!-- PIE DE PÁGINA -->
+        <footer class="relative z-10 text-center text-white/80 text-xs pb-1 drop-shadow">
+            © 2026 LogiExpress. Todos los derechos reservados.
+        </footer>
+
+    </section>
+
+</body>
+</html>

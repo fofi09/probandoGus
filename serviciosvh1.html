@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clon Sección Servicios Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030b21;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container Queries para un escalado idéntico a una imagen */
+        .scale-container {
+            container-type: inline-size;
+            container-name: services;
+            width: 100%;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        /* Gradiente radial idéntico a la imagen original, un toque más profundo */
+        .tech-gradient-bg {
+            background: radial-gradient(circle at 50% 20%, #0e3eb8 0%, #051c5c 50%, #020822 100%);
+        }
+
+        /* Efecto de pequeños círculos huecos a los costados de las tarjetas principales */
+        .service-card::before, .service-card::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.6cqi;
+            height: 1.6cqi;
+            border: 0.25cqi solid white;
+            background-color: #0a2d94;
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        }
+        
+        .service-card::before { left: -0.8cqi; }
+        .service-card::after { right: -0.8cqi; }
+
+        /* Estilos SVG integrados para las 2 tarjetas */
+        .tech-line { 
+            fill: none; 
+            stroke: white; 
+            stroke-width: 3; 
+            filter: drop-shadow(0px 2px 4px rgba(255, 255, 255, 0.3));
+        }
+        .tech-dot { 
+            fill: #0d36ab; 
+            stroke: white; 
+            stroke-width: 3; 
+            filter: drop-shadow(0px 2px 4px rgba(255, 255, 255, 0.4));
+        }
+    </style>
+</head>
+<body class="bg-[#030b21] m-0 p-0"> 
+
+    <!-- Mini sección superior de características (pegada al Hero sin espacios raros) -->
+    <section class="w-full bg-[#030b21] pt-4 pb-2 px-3 border-b border-white/10">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-3">
+            
+            <!-- Característica 1 -->
+            <div class="bg-[#0a2052]/50 border border-white/15 rounded-xl p-3 flex flex-col items-center text-center">
+                <div class="w-8 h-8 mb-2 rounded-full bg-blue-600/30 flex items-center justify-center text-blue-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-0.5">Seguridad</h4>
+                <p class="text-white/70 text-[11px] leading-snug">Certificación de Sistema de Gestión de Calidad.</p>
+            </div>
+
+            <!-- Característica 2 -->
+            <div class="bg-[#0a2052]/50 border border-white/15 rounded-xl p-3 flex flex-col items-center text-center">
+                <div class="w-8 h-8 mb-2 rounded-full bg-blue-600/30 flex items-center justify-center text-blue-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-0.5">Compromiso</h4>
+                <p class="text-white/70 text-[11px] leading-snug">Servicios estratégicos para impulsar el crecimiento.</p>
+            </div>
+
+            <!-- Característica 3 -->
+            <div class="bg-[#0a2052]/50 border border-white/15 rounded-xl p-3 flex flex-col items-center text-center">
+                <div class="w-8 h-8 mb-2 rounded-full bg-blue-600/30 flex items-center justify-center text-blue-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-0.5">A todo el país</h4>
+                <p class="text-white/70 text-[11px] leading-snug">Corredor principal con alcance regional.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN PRINCIPAL DE ESTRATEGIAS (Compacta, sin scroll innecesario, centrada y fluida) -->
+    <section class="tech-gradient-bg w-full py-8 md:py-12 flex flex-col justify-center items-center relative overflow-hidden">
+        
+        <div class="scale-container relative px-[3%]">
+            
+            <!-- CONTENEDOR DEL TÍTULO Y LÍNEAS (Exactamente 2 tarjetas simétricas) -->
+            <div class="flex flex-col items-center w-full relative">
+                
+                <!-- Título: OUR STRATEGIES (Píldora con doble borde) -->
+                <div class="relative z-20 bg-white p-[0.35cqi] rounded-full shadow-lg">
+                    <div class="border-[0.25cqi] border-[#0a3194] bg-white rounded-full px-[5cqi] py-[1cqi] flex items-center justify-center">
+                        <h2 class="text-[#0a3194] font-black uppercase text-[3.5cqi] leading-none tracking-wide m-0">
+                            Our Strategies
+                        </h2>
+                    </div>
+                </div>
+
+                <!-- SVG de las Líneas conectoras (OPTIMIZADO PARA 2 TARJETAS) -->
+                <svg class="w-full block relative z-10 mt-[-0.8cqi]" viewBox="0 0 1000 150" preserveAspectRatio="xMidYMid meet">
+                    <!-- LÍNEA IZQUIERDA -->
+                    <path class="tech-line" d="M 470 0 L 470 30 Q 470 45 455 45 L 285 45 Q 270 45 270 60 L 270 145" />
+                    <circle class="tech-dot" cx="470" cy="20" r="6" />
+                    <circle class="tech-dot" cx="270" cy="145" r="6" />
+
+                    <!-- LÍNEA DERECHA -->
+                    <path class="tech-line" d="M 530 0 L 530 30 Q 530 45 545 45 L 715 45 Q 730 45 730 60 L 730 145" />
+                    <circle class="tech-dot" cx="530" cy="20" r="6" />
+                    <circle class="tech-dot" cx="730" cy="145" r="6" />
+                </svg>
+
+                <!-- CONTENEDOR DE LAS 2 TARJETAS AMPLIAS -->
+                <div class="w-full flex justify-between relative z-20 mt-[-0.5cqi] px-[3cqi]">
+                    
+                    <!-- Tarjeta 1: Social Media -->
+                    <div class="service-card w-[45%] border-[0.25cqi] border-white rounded-[2.5cqi] bg-transparent flex flex-col items-center justify-start p-[3.5cqi] pb-[4.5cqi]">
+                        <div class="w-[8cqi] h-[8cqi] mb-[1.5cqi] flex items-center justify-center text-white">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M12 9v-2m0 -3a2 2 0 1 0 0 4 2 2 0 1 0 0 -4zM9 12h-2m-3 0a2 2 0 1 0 4 0 2 2 0 1 0 -4 0zM15 12h2m3 0a2 2 0 1 0 -4 0 2 2 0 1 0 4 0zM12 15v2m0 3a2 2 0 1 0 0 -4 2 2 0 1 0 0 4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-white font-bold text-[2.2cqi] text-center uppercase leading-[1.2] tracking-wide">
+                            Social Media<br>Marketing
+                        </h3>
+                        <p class="text-white/80 font-normal text-[1.5cqi] text-center mt-[1.5cqi] leading-[1.5]">
+                            Boost your online presence with data-driven social media campaigns. We connect your brand directly to your target audience for maximum engagement and loyalty.
+                        </p>
+                    </div>
+
+                    <!-- Tarjeta 2: Genuine Leads & Growth -->
+                    <div class="service-card w-[45%] border-[0.25cqi] border-white rounded-[2.5cqi] bg-transparent flex flex-col items-center justify-start p-[3.5cqi] pb-[4.5cqi]">
+                        <div class="w-[8cqi] h-[8cqi] mb-[1.5cqi] flex items-center justify-center text-white relative">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                <path d="M15 15l4 -4l4 4" stroke-width="2"></path>
+                                <path d="M19 11v10" stroke-width="2"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-white font-bold text-[2.2cqi] text-center uppercase leading-[1.2] tracking-wide">
+                            Genuine<br>Leads & Sales
+                        </h3>
+                        <p class="text-white/80 font-normal text-[1.5cqi] text-center mt-[1.5cqi] leading-[1.5]">
+                            Capture high-quality, verified leads ready to convert. Our advanced targeting strategies filter out noise, driving sustainable sales growth and top ROI.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+</body>
+</html>

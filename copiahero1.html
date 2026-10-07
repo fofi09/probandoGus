@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JG Envíos - Hero Section</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            overflow-x: hidden;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        #loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            z-index: 50; 
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .loader {
+            width: fit-content;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .truckWrapper {
+            width: 200px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            align-items: center;
+            justify-content: flex-end;
+            overflow-x: hidden;
+        }
+        
+        .truckBody {
+            width: 130px;
+            height: fit-content;
+            margin-bottom: 6px;
+            animation: motion 1s linear infinite;
+        }
+        
+        @keyframes motion {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(3px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .truckTires {
+            width: 130px;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 10px 0px 15px;
+            position: absolute;
+            bottom: 0;
+        }
+        .truckTires svg { width: 24px; }
+
+        .road {
+            width: 100%;
+            height: 1.5px;
+            background-color: #282828;
+            position: relative;
+            bottom: 0;
+            align-self: flex-end;
+            border-radius: 3px;
+        }
+        .road::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background-color: #282828;
+            right: -50%;
+            border-radius: 3px;
+            animation: roadAnimation 1.4s linear infinite;
+            border-left: 10px solid white;
+        }
+        .road::after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 100%;
+            background-color: #282828;
+            right: -65%;
+            border-radius: 3px;
+            animation: roadAnimation 1.4s linear infinite;
+            border-left: 4px solid white;
+        }
+
+        .lampPost {
+            position: absolute;
+            bottom: 0;
+            right: -90%;
+            height: 90px;
+            animation: roadAnimation 1.4s linear infinite;
+        }
+
+        @keyframes roadAnimation {
+            0% { transform: translateX(0px); }
+            100% { transform: translateX(-350px); }
+        }
+
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        #main-wrapper {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in 0.2s;
+        }
+
+        #main-wrapper.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @keyframes slideInFromLeft {
+            0% { transform: translateX(-150%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromRight {
+            0% { transform: translateX(150%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .start-animations .anim-jg-envios {
+            animation: slideInFromLeft 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .start-animations .anim-bienvenido {
+            opacity: 0; 
+            animation: slideInFromRight 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards;
+        }
+
+        .start-animations .anim-fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in 1.5s forwards;
+        }
+
+        @media (max-width: 767px) {
+            /* Aseguramos que el main content ocupe al menos la altura de la pantalla en móvil */
+            #main-content {
+                min-height: 100vh;
+                padding: 0; /* Quitamos padding externo en móvil para que cubra todo */
+            }
+            
+            /* El header debe ocupar toda la altura de la ventana en móvil */
+            header {
+                height: 100vh !important; 
+                min-height: 100vh !important;
+                border-radius: 0; /* Sin bordes redondeados en la vista full-screen móvil */
+                box-shadow: none;
+            }
+
+            /* La animación de oscurecimiento del fondo en móvil para asegurar lectura */
+            .start-animations .mobile-overlay-anim {
+                animation: dimOverlay 1.5s ease-out 0.5s forwards;
+            }
+            
+            /* Ajuste para que el texto blanco tenga sombras duras y se lea sobre cualquier fondo */
+            .text-shadow-strong {
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.8), -1px -1px 0 rgba(0,0,0,0.5);
+            }
+        }
+
+        @keyframes dimOverlay {
+            0% { background-color: rgba(0, 0, 0, 0); }
+            100% { background-color: rgba(0, 0, 0, 0.65); } /* Oscurecemos un poco más para contraste */
+        }
+    </style>
+</head>
+<body>
+            </svg>
+          </div>
+        </div>
+    </div>
+
+    <div id="main-content" class="flex justify-center p-0 md:p-8 pt-0 md:pt-10 w-full">
+        <!-- El header vuelve a ser el contenedor principal. En móvil es pantalla completa. -->
+        <header class="w-full max-w-7xl h-screen md:h-[80vh] md:min-h-[500px] md:bg-white md:shadow-xl md:rounded-2xl overflow-hidden flex flex-col md:flex-row relative">
+            
+            <!-- CONTENEDOR DEL TEXTO -->
+            <div class="relative z-20 w-full md:w-1/2 h-full flex flex-col justify-center items-center p-6 sm:p-8 md:p-12 lg:p-16 overflow-hidden bg-transparent md:bg-white">
+                <div class="text-center w-full">
+                    <!-- En móvil, los textos necesitan sombras fuertes si van sobre la imagen. En PC son normales. -->
+                    <h1 class="text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-extrabold text-white md:text-blue-900 tracking-tight anim-jg-envios text-shadow-strong md:text-shadow-none drop-shadow-lg md:drop-shadow-sm">
+                        JG ENVÍOS
+                    </h1>
+                    <h2 class="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-orange-400 md:text-orange-500 mt-2 md:mt-4 anim-bienvenido text-shadow-strong md:text-shadow-none">
+                        BIENVENIDO
+                    </h2>
+                    <p class="mt-6 text-gray-100 md:text-gray-600 font-medium md:font-normal text-base sm:text-lg md:text-lg lg:text-xl anim-fade-in max-w-md mx-auto text-shadow-strong md:text-shadow-none">
+                        Tu logística de encomiendas de confianza. Llegamos a donde necesites, rápido y seguro.
+                    </p>
+                    <div class="mt-8 anim-fade-in">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.23)] hover:bg-blue-500 transition duration-300 transform hover:-translate-y-1">
+                            Cotizar Envío
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute inset-0 md:relative md:inset-auto w-full md:w-1/2 h-full z-0 bg-gray-100">
+                <img 
+                    src="jg.jpg" 
+                    alt="Camión de logística JG Envíos" 
+                    class="absolute inset-0 w-full h-full object-contain md:object-cover md:!filter-none"
+                    onerror="this.src='https://placehold.co/800x600/gray/white?text=Imagen+No+Encontrada'"
+                />
+                <div class="absolute inset-0 pointer-events-none mobile-overlay-anim md:!bg-none md:bg-gradient-to-r md:from-white md:via-transparent md:to-transparent opacity-100 md:opacity-20"></div>
+                <div class="hidden md:block absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+            </div>
+        </header>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const loaderContainer = document.getElementById('loader-container');
+            const mainContent = document.getElementById('main-content');
+            
+            setTimeout(() => {
+                if (loaderContainer) loaderContainer.classList.add('loader-hidden');
+                
+                if (mainContent) {
+                    mainContent.classList.add('visible');
+                    mainContent.classList.add('start-animations');
+                }
+
+                setTimeout(() => {
+                    if (loaderContainer) loaderContainer.remove();
+                }, 500); 
+            }, 2500); 
+        });
+    </script>
+</body>
+</html>

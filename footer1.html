@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer Elegante</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .footer-bg {
+            /* Usamos una imagen de fondo de un paisaje abstracto oscuro o profesional */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                              url('jghero.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-end">
+
+    <footer class="footer-bg text-white py-12 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+            
+            <!-- Columna 1: Branding -->
+            <div class="space-y-4">
+                <h2 class="text-2xl font-bold tracking-tight">MiProyecto</h2>
+                <p class="text-gray-400 text-sm">
+                    Creamos soluciones digitales de alta calidad para llevar tu marca al siguiente nivel.
+                </p>
+            </div>
+
+            <!-- Columna 2: Navegación -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4 border-b border-gray-600 pb-2">Explora</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li><a href="#" class="hover:text-blue-400 transition">Inicio</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition">Servicios</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition">Portafolio</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition">Contacto</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Legal -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4 border-b border-gray-600 pb-2">Legal</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li><a href="#" class="hover:text-blue-400 transition">Privacidad</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition">Términos</a></li>
+                    <li><a href="#" class="hover:text-blue-400 transition">Cookies</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Suscripción -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4 border-b border-gray-600 pb-2">Newsletter</h3>
+                <p class="text-gray-400 text-xs mb-4">Recibe nuestras novedades.</p>
+                <input type="email" placeholder="Tu correo" class="w-full p-2 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-blue-500 mb-2">
+                <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded transition font-bold">Suscribirse</button>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-gray-700 text-center text-gray-500 text-sm">
+            &copy; 2026 MiProyecto. Todos los derechos reservados.
+        </div>
+    </footer>
+
+</body>
+</html>
