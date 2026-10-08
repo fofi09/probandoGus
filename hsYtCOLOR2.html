@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JG Envíos Integrado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        body { overflow-x: hidden; background-color: #f3f4f6; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        /* ================= PANTALLA DE CARGA ================= */
+        #loader-container { 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100vh; 
+            display: flex; justify-content: center; align-items: center; 
+            background-color: #f0f0f0; 
+            z-index: 50; 
+            transition: opacity 0.5s ease, transform 0.5s ease; 
+        }
+
+        .loader {
+            width: fit-content;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .truckWrapper {
+            width: 260px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+            background: transparent;
+            border-radius: 0;
+            border: none;
+        }
+
+        .cityBackground {
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            height: 60px;
+            display: flex;
+            align-items: flex-end;
+            width: max-content;
+            animation: cityAnimation 6s linear infinite;
+            opacity: 0.35;
+            z-index: 1;
+        }
+
+        .cityBackground svg {
+            height: 100%;
+            fill: #475569;
+        }
+
+        @keyframes cityAnimation {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .truckBody {
+            width: 130px;
+            height: fit-content;
+            margin-bottom: 6px;
+            animation: motion 1s linear infinite;
+            z-index: 3;
+        }
+
+        @keyframes motion {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(3px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .truckTires {
+            width: 130px;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 10px 0px 15px;
+            position: absolute;
+            bottom: 0;
+            z-index: 4;
+        }
+
+        .truckTires svg {
+            width: 24px;
+        }
+
+        .road {
+            width: 100%;
+            height: 2px;
+            background-color: #282828;
+            position: relative;
+            bottom: 0;
+            align-self: flex-end;
+            z-index: 4;
+        }
+
+        .road::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            background-color: #282828;
+            right: -50%;
+            border-radius: 3px;
+            animation: roadAnimation 1.4s linear infinite;
+            border-left: 10px solid white;
+        }
+
+        .road::after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 100%;
+            background-color: #282828;
+            right: -65%;
+            border-radius: 3px;
+            animation: roadAnimation 1.4s linear infinite;
+            border-left: 4px solid white;
+        }
+
+        @keyframes roadAnimation {
+            0% { transform: translateX(0px); }
+            100% { transform: translateX(-350px); }
+        }
+
+        .loader-hidden { opacity: 0; visibility: hidden; transform: translateY(-20px); pointer-events: none; }
+
+        /* ================= ANIMACIONES HERO ================= */
+        #main-content { opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in 0.2s; min-height: 100vh; display: flex; flex-direction: column; }
+        #main-content.visible { opacity: 1; visibility: visible; }
+        
+        @keyframes slideInFromLeft { 0% { transform: translateX(-150%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+        @keyframes slideInFromRight { 0% { transform: translateX(150%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+        
+        .start-animations .anim-jg-envios { animation: slideInFromLeft 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+        .start-animations .anim-bienvenido { opacity: 0; animation: slideInFromRight 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards; }
+        .start-animations .anim-fade-in { opacity: 0; animation: fadeIn 1s ease-in 1.5s forwards; }
+        
+        .hero-image-bg { background-image: url('jgHero14.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        @media (min-width: 768px) { .hero-image-bg { background-image: url('jgHero14.jpg'); } }
+
+        /* ================= ESTILOS SERVICIOS ================= */
+        .scale-container {
+            container-type: inline-size;
+            container-name: services;
+            width: 100%;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .service-card::before, .service-card::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.6cqi;
+            height: 1.6cqi;
+            border: 0.25cqi solid white;
+            background-color: #1d4ed8; 
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        }
+        
+        .service-card::before { left: -0.8cqi; }
+        .service-card::after { right: -0.8cqi; }
+
+        .tech-line { 
+            fill: none; 
+            stroke: #0a2052; 
+            stroke-width: 3; 
+            filter: drop-shadow(0px 2px 4px rgba(10, 32, 82, 0.2));
+        }
+
+        /* Ocultar scrollbar pero permitir scroll interno (invisible) */
+        .hide-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            overflow-y: auto;
+        }
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        @font-face {
+            font-family: "It's a Jump";
+            src: local("It's a Jump");
+        }
+        .font-jump { font-family: "It's a Jump", sans-serif; }
+
+        /* ================= ESTILOS DE SOBRE MÍ ================= */
+        .credential-hidden {
+            transform: translateY(-200%);
+            opacity: 0;
+            transition: none; 
+        }
+
+        @keyframes fall-and-hang {
+            0% { transform: translateY(-200%); opacity: 0; }
+            70% { transform: translateY(0); opacity: 1; animation-timing-function: ease-in; }
+            85% { transform: translateY(0) translateX(-2%) rotate(2deg); }
+            100% { transform: translateY(0) translateX(0) rotate(0deg); }
+        }
+
+        .credential-animate {
+            animation: fall-and-hang 1.8s forwards;
+        }
+
+        .card-flip-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 1.5s ease-in-out;
+            transform-style: preserve-3d;
+        }
+
+        .card-flip-wrapper {
+            perspective: 1000px;
+            height: 100%;
+            width: 100%;
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; 
+        }
+
+        .card-front {
+            transform: rotateY(0deg);
+            background-color: white;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background-color: white;
+            color: #1f2937;
+            display: block; 
+            overflow-y: auto; 
+            overflow-x: hidden;
+        }
+        
+        .card-back .profile-image { width: 96px; height: 96px; }
+        .card-back p, .card-back div, .card-back h2, .card-back h1 { color: inherit; }
+
+        .flipped { transform: rotateY(180deg); }
+
+        .carousel-container {
+            min-height: 400px; 
+            height: 65vh;
+            max-height: 700px;
+        }
+
+        .slide {
+            transition: opacity 0.5s ease-in-out;
+            background-color: #fcfcfc; 
+        }
+
+        .slide-content-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 2rem; 
+        }
+
+        @media (min-width: 768px) {
+            .slide-content-wrapper { padding: 0.5rem 2.5rem; }
+        }
+        
+        @media (max-width: 768px) {
+            .slide-content-wrapper { padding: 1rem !important; }
+            .slide-content-wrapper h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+            .grid-cols-1-md-2 { grid-template-columns: 1fr; }
+            .feat-element p:first-child { font-size: 1.75rem !important; line-height: 1.2; }
+            .feat-element p { font-size: 0.875rem; }
+        }
+    </style>
+</head>
+<body class="bg-[#030b21] m-0 p-0">
+    <div id="loader-container">
+        <div class="loader">
+            <div class="truckWrapper">
+                
+                <div class="cityBackground">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 80">
+                        <rect x="10" y="35" width="30" height="35" />
+                        <polygon points="5,35 25,15 45,35" />
+                        <rect x="50" y="20" width="25" height="50" />
+                        <rect x="85" y="40" width="35" height="30" />
+                        <polygon points="80,40 102,20 125,40" />
+                        <rect x="130" y="15" width="30" height="55" />
+                        <rect x="170" y="38" width="28" height="32" />
+                        <polygon points="165,38 184,22 203,38" />
+                        <rect x="210" y="5" width="35" height="65" />
+                        <rect x="255" y="35" width="32" height="35" />
+                        <polygon points="250,35 271,18 292,35" />
+                        <rect x="300" y="25" width="28" height="45" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 80">
+                        <rect x="10" y="35" width="30" height="35" />
+                        <polygon points="5,35 25,15 45,35" />
+                        <rect x="50" y="20" width="25" height="50" />
+                        <rect x="85" y="40" width="35" height="30" />
+                        <polygon points="80,40 102,20 125,40" />
+                        <rect x="130" y="15" width="30" height="55" />
+                        <rect x="170" y="38" width="28" height="32" />
+                        <polygon points="165,38 184,22 203,38" />
+                        <rect x="210" y="5" width="35" height="65" />
+                        <rect x="255" y="35" width="32" height="35" />
+                        <polygon points="250,35 271,18 292,35" />
+                        <rect x="300" y="25" width="28" height="45" />
+                    </svg>
+                </div>
+
+                <div class="truckBody">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 198 93" class="trucksvg">
+                        <path stroke-width="3" stroke="#282828" fill="#2563EB" d="M135 22.5H177.264C178.295 22.5 179.22 23.133 179.594 24.0939L192.33 56.8443C192.442 57.1332 192.5 57.4404 192.5 57.7504V89C192.5 90.3807 191.381 91.5 190 91.5H135C133.619 91.5 132.5 90.3807 132.5 89V25C132.5 23.6193 133.619 22.5 135 22.5Z"></path>
+                        <path stroke-width="3" stroke="#282828" fill="#7D7C7C" d="M146 33.5H181.741C182.779 33.5 183.709 34.1415 184.078 35.112L190.538 52.112C191.16 53.748 189.951 55.5 188.201 55.5H146C144.619 55.5 143.5 54.3807 143.5 53V36C143.5 34.6193 144.619 33.5 146 33.5Z"></path>
+                        <path stroke-width="2" stroke="#282828" fill="#282828" d="M150 65C150 65.39 149.763 65.8656 149.127 66.2893C148.499 66.7083 147.573 67 146.5 67C145.427 67 144.501 66.7083 143.873 66.2893C143.237 65.8656 143 65.39 143 65C143 64.61 143.237 64.1344 143.873 63.7107C144.501 63.2917 145.427 63 146.5 63C147.573 63 148.499 63.2917 149.127 63.7107C149.763 64.1344 150 64.61 150 65Z"></path>
+                        <rect stroke-width="2" stroke="#282828" fill="#FFFCAB" rx="1" height="7" width="5" y="63" x="187"></rect>
+                        <rect stroke-width="2" stroke="#282828" fill="#282828" rx="1" height="11" width="4" y="81" x="193"></rect>
+                        <rect stroke-width="3" stroke="#282828" fill="#DFDFDF" rx="2.5" height="90" width="121" y="1.5" x="6.5"></rect>
+                        <rect stroke-width="2" stroke="#282828" fill="#DFDFDF" rx="2" height="4" width="6" y="84" x="1"></rect>
+                    </svg>
+                </div>
+
+                <div class="truckTires">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" class="tiresvg">
+                        <circle stroke-width="3" stroke="#282828" fill="#282828" r="13.5" cy="15" cx="15"></circle>
+                        <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 30" class="tiresvg">
+                        <circle stroke-width="3" stroke="#282828" fill="#282828" r="13.5" cy="15" cx="15"></circle>
+                        <circle fill="#DFDFDF" r="7" cy="15" cx="15"></circle>
+                    </svg>
+                </div>
+
+                <div class="road"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content" class="w-full">
+        
+        <header class="w-full bg-white shadow-md border-b border-gray-200 sticky top-0 z-40">
+            <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+                <div class="font-bold text-xl text-blue-900 tracking-wider">JG LOGÍSTICA</div>
+                <div class="hidden md:flex gap-8 text-sm font-semibold text-gray-600">
+                    <a href="#" class="hover:text-blue-600 transition">Servicios</a>
+                    <a href="#" class="hover:text-blue-600 transition">Sobre mí</a>
+                    <a href="#" class="hover:text-blue-600 transition">Contacto</a>
+                    <a href="#" class="hover:text-blue-600 transition">Testimonios</a>
+                </div>
+                <div class="md:hidden text-2xl">☰</div>
+            </nav>
+        </header>
+
+        <section class="w-full h-[85svh] md:h-[80vh] flex flex-col md:flex-row relative overflow-hidden">
+            <!-- //SOFF aqui ca,bia color del fondo del hero -->
+            <div class="relative z-10 w-full md:w-[45%] h-full flex flex-col justify-center items-center p-8 lg:p-16 bg-transparent md:bg-white">
+                <div class="text-center w-full">
+                    
+                    <!-- //SOFF aqui ca,boa color de letra de frases del hero. -->
+                    <h1 class="text-5xl lg:text-7xl font-extrabold text-blue-900 tracking-tight anim-jg-envios font-jump">JG ENVÍOS</h1>
+                    
+                    <!-- //SOFF aqui ca,boa color de letra de frases del hero. -->
+                    <h2 class="text-3xl lg:text-5xl font-bold text-orange-500 mt-4 anim-bienvenido">BIENVENIDO</h2>
+                    
+                    <!-- //SOFF aqui ca,boa color de letra de frases del hero. -->
+                    <p class="mt-6 text-gray-600 text-lg lg:text-xl anim-fade-in max-w-md mx-auto">Tu logística de confianza. Llegamos a donde necesites, rápido y seguro.</p>
+                    
+                    <div class="mt-8 anim-fade-in"><button class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition">Cotizar Envío</button></div>
+                </div>
+            </div>
+            <div class="hero-image-bg absolute inset-0 md:relative w-full md:w-[55%] h-full z-0"></div>
+        </section>
+
+        <!-- //SOFF aqui cambias color -->
+        <section class="w-full bg-white pt-4 pb-2 px-3 border-b border-gray-200">
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-3">
+                
+                <!-- //SOFF AQUI CAMBIAS COLOR DE ESTAS CARDS -->
+                <div class="bg-[#0a2052] border border-white/15 rounded-xl p-3 flex flex-col items-center text-center">
+                    <div class="w-8 h-8 mb-2 rounded-full bg-blue-600/30 flex items-center justify-center text-blue-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-0.5">Seguridad</h4>
+                    <p class="text-white/70 text-[11px] leading-snug">Certificación de Sistema de Gestión de Calidad.</p>
+                </div>
+
+                <!-- //SOFF AQUI CAMBIAS COLOR DE ESTAS CARDS -->
+                <div class="bg-[#0a2052] border border-white/15 rounded-xl p-3 flex flex-col items-center text-center">
+                    <div class="w-8 h-8 mb-2 rounded-full bg-blue-600/30 flex items-center justify-center text-blue-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-0.5">Compromiso</h4>
+                    <p class="text-white/70 text-[11px] leading-snug">Servicios estratégicos para impulsar el crecimiento.</p>
+                </div>
+
+                <!-- //SOFF AQUI CAMBIAS COLOR DE ESTAS CARDS -->
+                <div class="bg-[#0a2052] border border-white/15 rounded-xl p-3 flex flex-col items-center text-center">
+                    <div class="w-8 h-8 mb-2 rounded-full bg-blue-600/30 flex items-center justify-center text-blue-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-0.5">A todo el país</h4>
+                    <p class="text-white/70 text-[11px] leading-snug">Corredor principal con alcance regional.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- //SOFF color de fondo de mis servicios -->
+        <section class="bg-white w-full py-8 md:py-12 flex flex-col justify-center items-center relative overflow-hidden">
+            
+            <div class="scale-container relative px-[3%]">
+                
+                <div class="flex flex-col items-center w-full relative">
+                    
+                    <div class="relative z-20 bg-white p-[0.35cqi] rounded-full shadow-lg">
+                        <div class="border-[0.25cqi] border-blue-700 bg-white rounded-full px-[5cqi] py-[1cqi] flex items-center justify-center">
+                            <!-- //SOFF COLOR DE LETRA de mis servicoos -->
+                            <h2 class="text-blue-700 font-black uppercase text-[3.5cqi] leading-none tracking-wide m-0">
+                                Mis servicios
+                            </h2>
+                        </div>
+                    </div>
+
+                    <!-- SVG de las Líneas conectoras (SIN LOS PUNTITOS) -->
+                    <svg class="w-full block relative z-10 mt-[-0.8cqi]" viewBox="0 0 1000 150" preserveAspectRatio="xMidYMid meet">
+                        <!-- LÍNEA IZQUIERDA -->
+                        <path class="tech-line" d="M 470 0 L 470 30 Q 470 45 455 45 L 285 45 Q 270 45 270 60 L 270 145" />
+
+                        <!-- LÍNEA DERECHA -->
+                        <path class="tech-line" d="M 530 0 L 530 30 Q 530 45 545 45 L 715 45 Q 730 45 730 60 L 730 145" />
+                    </svg>
+
+                    <!-- CONTENEDOR DE LAS 2 TARJETAS AMPLIAS -->
+                    <div class="w-full flex justify-between relative z-20 mt-[-0.5cqi] px-[3cqi]">
+                        
+                        <!-- Tarjeta 1: Social Media -->
+                        <!-- //SOFF AQUI CAMBIAS COLOR DE LAS CARDS DE MIS SERVICIOS -->
+                        <div class="service-card hide-scroll h-[35cqi] w-[45%] border-[0.25cqi] border-white/50 rounded-[2.5cqi] bg-gradient-to-br from-blue-700 to-[#8da9c4] flex flex-col items-center justify-start p-[3.5cqi] pb-[4.5cqi] shadow-xl">
+                            <div class="w-[8cqi] h-[8cqi] mb-[1.5cqi] flex items-center justify-center text-white shrink-0">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M12 9v-2m0 -3a2 2 0 1 0 0 4 2 2 0 1 0 0 -4zM9 12h-2m-3 0a2 2 0 1 0 4 0 2 2 0 1 0 -4 0zM15 12h2m3 0a2 2 0 1 0 -4 0 2 2 0 1 0 4 0zM12 15v2m0 3a2 2 0 1 0 0 -4 2 2 0 1 0 0 4z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-white font-bold text-[2.2cqi] text-center uppercase leading-[1.2] tracking-wide shrink-0">
+                                Envios<br> express
+                            </h3>
+                            <p class="text-white/90 font-normal text-[1.5cqi] text-center mt-[1.5cqi] leading-[1.5]">
+                              ufwnjimd yufbiewdm uybfwcnjimd fybrnwidjm rfbywnijmd bfuinjwd bfurnjiwdc bfurnijdc bfrnhujd bfyurnwd brnhucd fbrnhud buhnjcd bryf buhfner ji bhrnfejim cd vbrfenji bhrfnejckd berfnj  Boost your online presence with data-driven social media campaigns. We connect your brand directly to your target audience for maximum engagement and loyalty.
+                            </p>
+                        </div>
+
+                        <!-- Tarjeta 2: Genuine Leads & Growth -->
+                        <!-- //SOFF AQUI CAMBIAS COLOR DE LAS CARDS DE MIS SERVICIOS -->
+                        <div class="service-card hide-scroll h-[35cqi] w-[45%] border-[0.25cqi] border-white/50 rounded-[2.5cqi] bg-gradient-to-br from-blue-700 to-[#8da9c4] flex flex-col items-center justify-start p-[3.5cqi] pb-[4.5cqi] shadow-xl">
+                            <div class="w-[8cqi] h-[8cqi] mb-[1.5cqi] flex items-center justify-center text-white relative shrink-0">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    <path d="M15 15l4 -4l4 4" stroke-width="2"></path>
+                                    <path d="M19 11v10" stroke-width="2"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-white font-bold text-[2.2cqi] text-center uppercase leading-[1.2] tracking-wide shrink-0">
+                                Genuine<br>Leads & Sales
+                            </h3>
+                            <p class="text-white/90 font-normal text-[1.5cqi] text-center mt-[1.5cqi] leading-[1.5]">
+                                Capture high-quality, verified leads ready to convert. Our advanced targeting strategies filter out noise, driving sustainable sales growth and top ROI.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- ================= SECCIÓN SOBRE MÍ (Carrusel 3D) ================= -->
+        <div class="w-full bg-[#f3f4f6]">
+            <section id="about-me" class="max-w-4xl mx-auto py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-8 text-center">
+                    Sobre <span class="text-blue-700">enviosJG</span>
+                </h2>
+
+                <div id="carousel" class="relative w-full bg-white shadow-2xl rounded-2xl overflow-hidden carousel-container border-t-8 border-blue-700">
+                    
+                    <div id="slides-container" class="w-full h-full relative">
+                        <!-- Los slides se inyectan aquí con Javascript -->
+                    </div>
+
+                    <div id="indicators-container" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+                        <!-- Puntos inyectados con Javascript -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ================= SCRIPTS GLOBALES ================= -->
+    <script>
+        lucide.createIcons();
+
+        // ----------------------------------------------------
+        // LÓGICA DEL CARRUSEL DE "SOBRE MÍ"
+        // ----------------------------------------------------
+        const credentialImagePath = 'gus1.jpg';
+
+        const cardBackContent = `
+            <div class="id-card p-5 md:p-6 w-full">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4 mt-8">
+                    <div class="profile-image w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-gray-200 rounded-full overflow-hidden border-4 border-blue-500 shadow-md">
+                        <img src="https://placehold.co/112x112/2563eb/ffffff?text=J" 
+                            alt="Foto de perfil de Javier" 
+                            class="w-full h-full object-cover"
+                            onerror="this.onerror=null;this.src='https://placehold.co/112x112/2563eb/ffffff?text=J';"
+                        >
+                    </div>
+
+                    <div class="text-center sm:text-left mt-1 sm:mt-2">
+                        <p class="text-2xl font-extrabold text-blue-700 leading-tight">Javier Envíos</p>
+                        <p class="text-sm text-gray-600 font-semibold mb-2">Fundador & CEO de Envíos Rápidos</p>
+                        
+                        <div class="mt-3 space-y-1 text-sm text-gray-700">
+                            <p class="flex items-center justify-center sm:justify-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                                </svg>
+                                España (Envío a todo el mundo)
+                            </p>
+                            <p class="flex items-center justify-center sm:justify-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                                </svg>
+                                Desde 2018
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-gray-200">
+                    <p class="text-sm font-semibold text-gray-800 mb-2">Mi Misión:</p>
+                    <p class="text-gray-600 text-base leading-normal">
+                        Soy **Javier**, y mi objetivo es asegurar que tus pedidos lleguen a su destino con la máxima rapidez y seguridad, sin importar la distancia. Me encargo de toda la logística para que tú solo tengas que preocuparte de tu producto.
+                    </p>
+                </div>
+
+                <div class="mt-6 text-center pb-4">
+                    <button class="w-full py-2 px-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300 shadow-lg transform hover:scale-[1.02] active:scale-[0.98]">
+                        Contactar para un Servicio
+                    </button>
+                </div>
+            </div>
+        `;
+
+        const slidesData = [
+            { 
+                type: 'credential', 
+                content: `
+                    <div class="flex items-center justify-center w-full h-full">
+                        <div class="card-flip-wrapper relative max-w-xs w-full" style="height: 500px; max-height: 80vh;">
+                            <div class="card-flip-container origin-top" id="credential-card-0">
+                                <div class="card-face card-front">
+                                    <img src="${credentialImagePath}" alt="Credencial de Identificación de Gustavo (enviosJG)" 
+                                            class="w-full h-auto rounded-lg shadow-md" 
+                                            onerror="this.onerror=null;this.src='https://placehold.co/300x500/0033A0/FFFFFF?text=Credencial+enviosJG+Cargando';" 
+                                    />
+                                </div>
+                                <div class="card-face card-back">
+                                    ${cardBackContent}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'text',
+                title: 'Introducción',
+                content: `
+                    <div class="slide-content-wrapper text-center flex flex-col items-center h-full">
+                        <h3 class="text-4xl md:text-6xl font-extrabold text-blue-700 mb-4 tracking-tight">
+                            Bienvenido a enviosJG.
+                        </h3>
+                        <p class="text-lg md:text-xl text-gray-700 max-w-xl mx-auto font-medium">
+                            Conoce nuestra historia, valores y por qué somos tu mejor opción para cada envío.
+                        </p>
+                    </div>
+                `
+            },
+            {
+                type: 'text',
+                title: 'Experiencia y Hitos',
+                content: `
+                    <div class="slide-content-wrapper text-left flex flex-col h-full slide-content-3">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 border-blue-200 pb-2">Nuestra Trayectoria y Compromiso</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 grid-cols-1-md-2">
+                            <div class="p-6 bg-blue-50 rounded-xl shadow-md border-l-4 border-blue-700 feat-element">
+                                <p class="text-5xl font-extrabold text-blue-700 mb-2">+10</p>
+                                <p class="text-xl font-semibold text-gray-700">Años de Experiencia</p>
+                                <p class="text-gray-600 mt-1">en la ruta, conectando tus necesidades con soluciones de envío eficientes.</p>
+                            </div>
+                            <div class="p-6 bg-white rounded-xl shadow-md border-l-4 border-gray-400">
+                                <p class="text-2xl font-bold text-gray-800 mb-4">Hitos Clave</p>
+                                <ul class="space-y-3 text-gray-700 list-disc pl-5">
+                                    <li><span class="font-semibold">Más de 5000</span> entregas exitosas a lo largo del país.</li>
+                                    <li>Especialistas en logística de <span class="font-semibold">última milla</span> para e-commerce.</li>
+                                    <li>Expansión a <span class="font-semibold">5 regiones clave</span>, garantizando cobertura y rapidez.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'text',
+                title: 'Valores y Misión',
+                content: `
+                    <div class="slide-content-wrapper text-center flex flex-col items-center h-full">
+                        <div class="mb-6 text-blue-700">
+                            <i data-lucide="handshake" class="w-16 h-16 mx-auto mb-4"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">Nuestros Pilares: Confianza en Cada Envío</h3>
+                        <p class="text-xl font-semibold text-blue-700 mb-6 max-w-2xl mx-auto">
+                            Transparencia, Rapidez y Seguridad: Los principios que guían cada paso en enviosJG.
+                        </p>
+                        <p class="text-md text-gray-600 max-w-xl mx-auto">
+                            <span class="font-bold">Misión Breve:</span> Simplificamos tus procesos de envío, permitiéndote concentrarte en lo que realmente importa: tu negocio y tus clientes.
+                        </p>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+        const totalSlides = slidesData.length;
+        const slidesContainer = document.getElementById('slides-container');
+        const indicatorsContainer = document.getElementById('indicators-container');
+        const FALL_DURATION_MS = 1800; 
+        const POST_FALL_DELAY_MS = 2000;
+        let animationEndListener = null;
+        let isCarouselVisible = false;
+
+        function animateCredentialDrop(slideElement) {
+            const cardContainer = slideElement.querySelector('#credential-card-0');
+            
+            if (cardContainer) {
+                if (animationEndListener) {
+                    cardContainer.removeEventListener('animationend', animationEndListener);
+                    animationEndListener = null;
+                }
+                
+                cardContainer.classList.remove('flipped', 'credential-animate');
+                cardContainer.classList.add('credential-hidden');
+                
+                animationEndListener = (event) => {
+                    if (event.animationName !== 'fall-and-hang') return;
+
+                    cardContainer.removeEventListener('animationend', animationEndListener);
+                    animationEndListener = null; 
+                    cardContainer.classList.remove('credential-animate');
+                    
+                    setTimeout(() => {
+                        cardContainer.classList.add('flipped');
+                    }, POST_FALL_DELAY_MS); 
+                };
+
+                cardContainer.addEventListener('animationend', animationEndListener);
+                void cardContainer.offsetWidth; 
+                cardContainer.classList.remove('credential-hidden');
+                cardContainer.classList.add('credential-animate');
+            }
+        }
+
+        function renderCarousel() {
+            if (slidesContainer.children.length === 0) {
+                slidesData.forEach((slide, index) => {
+                    const slideDiv = document.createElement('div');
+                    slideDiv.className = `slide absolute top-0 left-0 w-full h-full bg-white transition-opacity duration-500`;
+                    slideDiv.innerHTML = slide.content;
+                    slideDiv.style.opacity = 0;
+                    slideDiv.style.zIndex = 0;
+                    
+                    if (index === 0) {
+                           const cardContainer = slideDiv.querySelector('#credential-card-0');
+                           if (cardContainer) cardContainer.classList.add('credential-hidden');
+                    }
+                    slidesContainer.appendChild(slideDiv);
+                    lucide.createIcons();
+                });
+            }
+            
+            Array.from(slidesContainer.children).forEach((slideDiv, index) => {
+                const isActive = index === currentSlide;
+                slideDiv.style.opacity = isActive ? 1 : 0;
+                slideDiv.style.zIndex = isActive ? 1 : 0;
+            });
+            
+            if (currentSlide === 0) {
+                if (isCarouselVisible) {
+                    setTimeout(() => {
+                        animateCredentialDrop(slidesContainer.children[0]);
+                    }, 100); 
+                }
+            } else {
+                const cardContainer = slidesContainer.children[0].querySelector('#credential-card-0');
+                if (cardContainer) {
+                    cardContainer.classList.remove('credential-animate', 'flipped');
+                    if (animationEndListener) {
+                        cardContainer.removeEventListener('animationend', animationEndListener);
+                        animationEndListener = null;
+                    }
+                }
+            }
+
+            indicatorsContainer.innerHTML = ''; 
+            slidesData.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.className = `w-3 h-3 rounded-full transition-colors duration-300 shadow-inner`;
+                
+                if (index === currentSlide) {
+                    dot.classList.add('bg-blue-700');
+                } else {
+                    dot.classList.add('bg-gray-300', 'hover:bg-gray-400');
+                }
+
+                dot.setAttribute('aria-label', `Ir al slide ${index + 1}`);
+                dot.addEventListener('click', () => { goToSlide(index); });
+                indicatorsContainer.appendChild(dot);
+            });
+        }
+
+        function goToSlide(newIndex) {
+            if (newIndex < 0 || newIndex >= totalSlides || newIndex === currentSlide) return;
+            currentSlide = newIndex;
+            renderCarousel();
+        }
+
+        // ----------------------------------------------------
+        // LÓGICA CONJUNTA: AL CARGAR LA PÁGINA COMPLETAMENTE
+        // ----------------------------------------------------
+        window.addEventListener('load', () => {
+            
+            const loaderContainer = document.getElementById('loader-container');
+            const mainContent = document.getElementById('main-content');
+            setTimeout(() => {
+                if (loaderContainer) {
+                    loaderContainer.classList.add('loader-hidden');
+                }
+                
+                if (mainContent) {
+                    mainContent.classList.add('visible');
+                    mainContent.classList.add('start-animations');
+                }
+                
+                setTimeout(() => {
+                    if (loaderContainer) {
+                        loaderContainer.remove();
+                    }
+                }, 500); 
+            }, 2500); 
+
+            // 1. Iniciar el Carrusel en el fondo
+            renderCarousel();
+
+            // 1.5 Observador de Scroll para la sección "Sobre Mí"
+            const aboutMeSection = document.getElementById('about-me');
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    isCarouselVisible = true; 
+                    if (currentSlide === 0 && slidesContainer.children.length > 0) {
+                        animateCredentialDrop(slidesContainer.children[0]); 
+                    }
+                    observer.disconnect(); 
+                }
+            }, { threshold: 0.3 }); 
+            
+            if (aboutMeSection) observer.observe(aboutMeSection);
+        });
+
+    </script>
+</body>
+</html>
