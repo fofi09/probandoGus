@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificación de Proyecto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            /* Gradiente basado en la imagen de referencia */
+            background: linear-gradient(135deg, #e0e7ff 0%, #ffffff 50%, #e0e7ff 100%);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .timeline-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative; /* Para posicionar el contenedor de la línea */
+        }
+
+        .timeline-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* La barra azul gruesa detrás de los números */
+        .timeline-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 10px; /* Ajuste fino superior */
+            bottom: 10px; /* Ajuste fino inferior */
+            left: 25px; /* Centrado respecto al círculo de 50px (mitad) */
+            transform: translateX(-50%);
+            width: 30px; /* Ancho de la barra */
+            background-color: #2563eb; /* Color azul */
+            border-radius: 20px; /* Bordes redondeados de la barra */
+            z-index: 0; /* Detrás de los círculos */
+            /* Efecto de sombra sutil alrededor de la barra (halo) */
+            box-shadow: 0 0 0 10px rgba(37, 99, 235, 0.1); 
+        }
+
+        .step-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            position: relative; /* Asegura que el z-index de los hijos funcione aquí */
+            z-index: 1; /* Por encima de la barra */
+        }
+
+        .step-row:last-child {
+            margin-bottom: 0; /* Quita margen extra al último */
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 3px solid #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #2563eb;
+            flex-shrink: 0;
+            position: relative; /* Importante para el z-index respecto a la barra */
+            z-index: 2; /* Bien por encima de todo */
+            opacity: 0;
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        .step-line {
+            height: 2px;
+            width: 40px;
+            background: #2563eb;
+            position: relative;
+            z-index: 1;
+            transform-origin: left center;
+            opacity: 0;
+            animation: drawLine 0.4s ease-out both;
+        }
+
+        .text-box {
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeInRight 0.5s ease-out both;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes drawLine {
+            0% { transform: scaleX(0); opacity: 0; }
+            100% { transform: scaleX(1); opacity: 1; }
+        }
+
+        @keyframes fadeInRight {
+            0% { opacity: 0; transform: translateX(-15px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .text-box h3 {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin: 0;
+        }
+
+        .text-box p {
+            font-size: 0.75rem;
+            color: #475569;
+            margin: 0;
+            max-width: 220px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="timeline-container">
+    <div class="timeline-wrapper">
+        <!-- Paso 1 -->
+        <div class="step-row">
+            <div class="step-circle" style="animation-delay: 0.2s;">01</div>
+            <div class="step-line" style="animation-delay: 1.2s;"></div>
+            <div class="text-box" style="animation-delay: 1.5s;">
+                <h3>DEFINE OBJECTIVES</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+            </div>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="step-row">
+            <div class="step-circle" style="animation-delay: 0.4s;">02</div>
+            <div class="step-line" style="animation-delay: 2.0s;"></div>
+            <div class="text-box" style="animation-delay: 2.3s;">
+                <h3>BUILD THE TIMELINE</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+            </div>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="step-row">
+            <div class="step-circle" style="animation-delay: 0.6s;">03</div>
+            <div class="step-line" style="animation-delay: 2.8s;"></div>
+            <div class="text-box" style="animation-delay: 3.1s;">
+                <h3>ASSIGN RESPONSIBILITIES</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+            </div>
+        </div>
+
+        <!-- Paso 4 -->
+        <div class="step-row">
+            <div class="step-circle" style="animation-delay: 0.8s;">04</div>
+            <div class="step-line" style="animation-delay: 3.6s;"></div>
+            <div class="text-box" style="animation-delay: 3.9s;">
+                <h3>ALLOCATE RESOURCES</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
