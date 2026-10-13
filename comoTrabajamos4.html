@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificación de Proyecto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #e0e7ff 0%, #ffffff 50%, #e0e7ff 100%);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .timeline-container {
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .section-title {
+            color: #0a2052;
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 50px;
+            margin-top: 0;
+            opacity: 0;
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
+
+        .timeline-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .timeline-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            left: 25px; 
+            transform: translateX(-50%);
+            width: 30px; 
+            /* Se aplica el degradado a la barra vertical */
+            background: linear-gradient(to bottom, #1d4ed8, #8da9c4); 
+            border-radius: 20px; 
+            z-index: 0; 
+            /* Sombra sutil con el color blue-700 */
+            box-shadow: 0 0 0 10px rgba(29, 78, 216, 0.1); 
+        }
+
+        .step-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 45px; 
+            position: relative; 
+            z-index: 1; 
+        }
+
+        .step-row:last-child {
+            margin-bottom: 0; 
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            background: white;
+            /* Se usa blue-700 para mantener consistencia responsiva */
+            border: 3px solid #1d4ed8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #1d4ed8; /* Mismo color blue-700 */
+            flex-shrink: 0; 
+            position: relative; 
+            z-index: 2; 
+        }
+
+        .step-line {
+            height: 2px;
+            width: 40px;
+            /* Se aplica el degradado a las flechitas horizontales */
+            background: linear-gradient(to right, #1d4ed8, #8da9c4);
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0; 
+            transform-origin: left center;
+            opacity: 0;
+            animation: drawLine 0.4s ease-out both;
+        }
+
+        .text-box {
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeInRight 0.5s ease-out both;
+        }
+
+        .text-box h3 {
+            /* SOFF aqui podes cambiar el tamaño de letra */
+            font-size: 1.15rem; 
+            font-weight: 800;
+            color: #0a2052; /* Color coherente con el título principal */
+            margin: 0 0 6px 0;
+            line-height: 1.2;
+        }
+
+        .text-box p {
+            /* SOFF aqui podes cambiar el tamaño de letra */
+            font-size: 1rem; 
+            color: #475569;
+            margin: 0;
+            max-width: 280px; 
+            line-height: 1.5;
+        }
+
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes drawLine {
+            0% { transform: scaleX(0); opacity: 0; }
+            100% { transform: scaleX(1); opacity: 1; }
+        }
+
+        @keyframes fadeInRight {
+            0% { opacity: 0; transform: translateX(-15px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="timeline-container">
+    <h2 class="section-title">Como trabajamos</h2>
+    
+    <div class="timeline-wrapper">
+        <!-- Paso 1 -->
+        <div class="step-row">
+            <div class="step-circle">01</div>
+            <div class="step-line" style="animation-delay: 0.2s;"></div>
+            <div class="text-box" style="animation-delay: 0.5s;">
+                <h3>DEFINE OBJECTIVES</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+            </div>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="step-row">
+            <div class="step-circle">02</div>
+            <div class="step-line" style="animation-delay: 1.0s;"></div>
+            <div class="text-box" style="animation-delay: 1.3s;">
+                <h3>BUILD THE TIMELINE</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+            </div>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="step-row">
+            <div class="step-circle">03</div>
+            <div class="step-line" style="animation-delay: 1.8s;"></div>
+            <div class="text-box" style="animation-delay: 2.1s;">
+                <h3>ASSIGN RESPONSIBILITIES</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+            </div>
+        </div>
+
+        <!-- Paso 4 -->
+        <div class="step-row">
+            <div class="step-circle">04</div>
+            <div class="step-line" style="animation-delay: 2.6s;"></div>
+            <div class="text-box" style="animation-delay: 2.9s;">
+                <h3>ALLOCATE RESOURCES</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
