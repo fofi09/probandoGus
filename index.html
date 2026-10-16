@@ -173,6 +173,208 @@
             .stars-card { font-size: 1rem; }
             .quote-icon { font-size: 2rem; right: 1rem; }
         }
+
+        /* ================= ESTILOS SECCIÓN CONTACTOS ================= */
+        #contacto {
+            background: linear-gradient(135deg, #ffffff 0%, #dbe4ed 100%);
+        }
+
+        #contacto .contact-box {
+            display: flex;
+            width: 520px;
+            height: 500px;
+            max-width: 99%;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background-color: #ffffff25;
+            border-radius: 15px;
+            box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.03);
+            border: 0.1px solid rgba(128, 128, 128, 0.178);
+            z-index: 1;
+        }
+
+        #contacto .left {
+            width: 66%;
+            height: 100%;
+        }
+
+        #contacto .form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+
+        #contacto .form::before {
+            position: absolute;
+            content: "";
+            width: 40%;
+            height: 40%;
+            right: 1%;
+            z-index: -1;
+            background: radial-gradient(
+                circle,
+                #ffffff 10%,
+                #a8c1d9 50%,
+                #8da9c4 100%
+            );
+            filter: blur(70px);
+            border-radius: 50%;
+        }
+
+        #contacto .contact-box::after {
+            position: absolute;
+            content: "";
+            width: 80%;
+            height: 80%;
+            right: -40%;
+            background: linear-gradient(135deg, #1d4ed8 0%, #8da9c4 40%, #8da9c4 100%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        #contacto .right {
+            width: 34%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #contacto picture {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #contacto .img {
+            width: 100%;
+            height: auto;
+            max-height: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.1));
+        }
+
+        #contacto .input,
+        #contacto button {
+            background: rgba(253, 253, 253, 0);
+            outline: none;
+            border: 1px solid rgba(255, 0, 0, 0);
+            border-radius: 0.5rem;
+            padding: 10px;
+            margin: 10px auto;
+            width: 80%;
+            display: block;
+            color: #425981;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        #contacto .input-block {
+            position: relative;
+        }
+
+        #contacto label {
+            position: absolute;
+            left: 15%;
+            top: 37%;
+            pointer-events: none;
+            color: gray;
+            transition: all 0.3s ease;
+        }
+
+        #contacto .forgot {
+            display: block;
+            margin: 5px 0 10px 0;
+            margin-left: 35px;
+            color: #8da9c4;
+            font-size: 0.9em;
+        }
+
+        #contacto .input:focus + label,
+        #contacto .input:not(:placeholder-shown) + label {
+            transform: translateY(-120%) scale(0.9);
+            transition: all 0.4s;
+        }
+
+        #contacto button {
+            background: linear-gradient(135deg, #1d4ed8 0%, #8da9c4 100%);
+            color: white;
+            font-size: medium;
+            box-shadow: 2px 4px 8px rgba(70, 70, 70, 0.178);
+            cursor: pointer;
+        }
+        
+        #contacto button:hover {
+            background: linear-gradient(135deg, #1e40af 0%, #7a98b5 100%);
+        }
+
+        #contacto a {
+            color: #8da9c4;
+            text-decoration: none;
+        }
+
+        #contacto a:hover {
+            text-decoration: underline;
+        }
+
+        #contacto .input {
+            box-shadow: inset 4px 4px 4px rgba(165, 163, 163, 0.315),
+                4px 4px 4px rgba(218, 218, 218, 0.13);
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        #contacto .error-tooltip {
+            position: absolute;
+            top: -10px; 
+            left: 12%;
+            color: #160234;
+            font-size: 0.75em;
+            font-weight: 600;
+            pointer-events: none;
+            animation: agitar 0.4s ease-in-out;
+        }
+
+        #contacto .input.error-shake {
+            border-color: rgba(216, 69, 69, 0.5) !important;
+        }
+
+        @keyframes agitar {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+
+        @media (max-width: 600px) {
+            #contacto .left {
+                width: 60%; 
+            }
+            #contacto .right {
+                width: 40%;
+                padding: 5px 5px 5px 20px; 
+            }
+            #contacto .input, #contacto button {
+                width: 90%; 
+                margin: 8px auto;
+            }
+            #contacto label {
+                left: 10%;
+                font-size: 0.95em;
+            }
+            #contacto .img {
+                max-height: 90%; 
+            }
+        }
     </style>
 </head>
 <body class="bg-[#f3f4f6] m-0 p-0">
@@ -208,12 +410,12 @@
             <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 relative bg-white z-50">
                 <div class="font-bold text-xl text-blue-900 tracking-wider">JG LOGÍSTICA</div>
                 
-                <!-- Menú Escritorio Actualizado: Testimonios va antes que Contacto -->
+                <!-- Menú Escritorio -->
                 <div class="hidden md:flex gap-8 text-sm font-semibold text-gray-600">
                     <a href="#servicios" class="hover:text-blue-600 transition">Servicios</a>
                     <a href="#about-me" class="hover:text-blue-600 transition">Sobre mí</a>
                     <a href="#testimonios" class="hover:text-blue-600 transition">Testimonios</a>
-                    <a href="#" class="hover:text-blue-600 transition">Contacto</a>
+                    <a href="#contacto" class="hover:text-blue-600 transition">Contacto</a>
                 </div>
                 
                 <button id="mobile-menu-btn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center z-50 focus:outline-none">
@@ -223,13 +425,13 @@
                 </button>
             </nav>
 
-            <!-- Menú Mobile Actualizado: Testimonios va antes que Contacto -->
+            <!-- Menú Mobile -->
             <div id="mobile-menu" class="absolute top-full left-0 w-full bg-white overflow-hidden transition-all duration-300 ease-in-out max-h-0 md:hidden border-gray-200" style="border-bottom-width: 0px;">
                 <div class="flex flex-col px-6 py-4 gap-4 text-gray-600 font-semibold border-t border-gray-100">
                     <a href="#servicios" class="mobile-link hover:text-blue-600 transition block">Servicios</a>
                     <a href="#about-me" class="mobile-link hover:text-blue-600 transition block">Sobre mí</a>
                     <a href="#testimonios" class="mobile-link hover:text-blue-600 transition block">Testimonios</a>
-                    <a href="#" class="mobile-link hover:text-blue-600 transition block">Contacto</a>
+                    <a href="#contacto" class="mobile-link hover:text-blue-600 transition block">Contacto</a>
                 </div>
             </div>
         </header>
@@ -400,7 +602,7 @@
             </div>
         </section>
 
-        <!-- ================= SECCIÓN TESTIMONIOS ================= -->
+        <!-- SECCIÓN TESTIMONIOS -->
         <section id="testimonios" class="pt-[30px] pb-[80px] bg-slate-50 relative overflow-hidden">
             <!-- Decoraciones de fondo -->
             <div class="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 -translate-x-1/2 -translate-y-1/2"></div>
@@ -552,6 +754,41 @@
             </div>
         </section>
 
+        <!-- ================= NUEVA SECCIÓN CONTACTOS ================= -->
+        <section id="contacto" class="pt-[30px] pb-[80px] px-4 flex flex-col items-center justify-center relative overflow-hidden">
+            
+            <!-- //SOFF aqui cambiar color titulo contactos -->
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[#0a2052] mb-8 text-center tracking-tight">
+                Contactos
+            </h2>
+
+            <div class="contact-box">
+                <div class="left">
+                    <form class="form" onsubmit="enviarWhatsApp(event)">
+                        <div class="input-block">
+                            <input class="input" type="text" id="nombre" placeholder=" " required="" oninvalid="mostrarError(event)" oninput="limpiarError(event)">
+                            <label for="nombre">Nombre</label>
+                        </div>
+                        <div class="input-block">
+                            <input class="input" type="text" id="consulta" placeholder=" " onfocus="if(this.value==='') this.value='Quiero consultar sobre sus servicios '" onblur="if(this.value==='Buenas, quiero consultar sobre.. ') this.value=''">
+                            <label for="consulta">Consulta</label>
+                        </div>
+                        <div class="input-block">
+                            <button type="submit">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="right">
+                    <picture>
+                        <source media="(max-width: 600px)" srcset="formJG3_inspyrenet.png">
+                        <img class="img" src="formJG3_inspyrenet.png" alt="Tu imagen personal">
+                    </picture>
+                </div>
+            </div>
+
+        </section>
+
     </div>
 
     <!-- ================= SCRIPTS GLOBALES ================= -->
@@ -559,6 +796,7 @@
     <script src="sobreEnvios.js"></script>
     <script src="comoTrabajamos.js"></script>
     <script src="testimonios.js"></script>
+    <script src="contacto.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
