@@ -29,6 +29,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
+        /* Scroll suave para los enlaces del menú */
+        html { scroll-behavior: smooth; }
+
         body { overflow-x: hidden; background-color: #f3f4f6; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
         /* ================= PANTALLA DE CARGA ================= */
@@ -158,7 +161,7 @@
 
         .loader-hidden { opacity: 0; visibility: hidden; transform: translateY(-20px); pointer-events: none; }
 
-        /* ================= ANIMACIONES HERO ================= */
+        /* ================= ANIMACIONES HERO Y MENÚ ================= */
         #main-content { opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in 0.2s; min-height: 100vh; display: flex; flex-direction: column; }
         #main-content.visible { opacity: 1; visibility: visible; }
         
@@ -172,6 +175,11 @@
         
         .hero-image-bg { background-image: url('jgHero14.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; }
         @media (min-width: 768px) { .hero-image-bg { background-image: url('jgHero14.jpg'); } }
+
+        /* Transformación Hamburguesa a Cruz */
+        #mobile-menu-btn.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        #mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
+        #mobile-menu-btn.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
         /* ================= ESTILOS SERVICIOS ================= */
         .scale-container {
@@ -367,17 +375,35 @@
 
     <div id="main-content" class="w-full">
         
-        <header class="w-full bg-white shadow-md border-b border-gray-200 sticky top-0 z-40">
-            <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        <header class="w-full bg-white shadow-md border-b border-gray-200 sticky top-0 z-40 relative">
+            <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 relative bg-white z-50">
                 <div class="font-bold text-xl text-blue-900 tracking-wider">JG LOGÍSTICA</div>
+                
+                <!-- Menú Escritorio -->
                 <div class="hidden md:flex gap-8 text-sm font-semibold text-gray-600">
-                    <a href="#" class="hover:text-blue-600 transition">Servicios</a>
-                    <a href="#" class="hover:text-blue-600 transition">Sobre mí</a>
+                    <a href="#servicios" class="hover:text-blue-600 transition">Servicios</a>
+                    <a href="#about-me" class="hover:text-blue-600 transition">Sobre mí</a>
                     <a href="#" class="hover:text-blue-600 transition">Contacto</a>
                     <a href="#" class="hover:text-blue-600 transition">Testimonios</a>
                 </div>
-                <div class="md:hidden text-2xl">☰</div>
+                
+                <!-- Menú Hamburguesa a Cruz (Mobile) -->
+                <button id="mobile-menu-btn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center z-50 focus:outline-none">
+                    <span class="bg-gray-800 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+                    <span class="bg-gray-800 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-1.5"></span>
+                    <span class="bg-gray-800 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm"></span>
+                </button>
             </nav>
+
+            <!-- Menú Deslizante Mobile -->
+            <div id="mobile-menu" class="absolute top-full left-0 w-full bg-white overflow-hidden transition-all duration-300 ease-in-out max-h-0 md:hidden border-gray-200" style="border-bottom-width: 0px;">
+                <div class="flex flex-col px-6 py-4 gap-4 text-gray-600 font-semibold border-t border-gray-100">
+                    <a href="#servicios" class="mobile-link hover:text-blue-600 transition block">Servicios</a>
+                    <a href="#about-me" class="mobile-link hover:text-blue-600 transition block">Sobre mí</a>
+                    <a href="#" class="mobile-link hover:text-blue-600 transition block">Contacto</a>
+                    <a href="#" class="mobile-link hover:text-blue-600 transition block">Testimonios</a>
+                </div>
+            </div>
         </header>
 
         <section class="w-full h-[85svh] md:h-[80vh] flex flex-col md:flex-row relative overflow-hidden">
@@ -439,7 +465,7 @@
         </section>
 
         <!-- //SOFF color de fondo de mis servicios -->
-        <section class="bg-white w-full py-8 md:py-12 flex flex-col justify-center items-center relative overflow-hidden">
+        <section id="servicios" class="bg-white w-full py-8 md:py-12 flex flex-col justify-center items-center relative overflow-hidden">
             
             <div class="scale-container relative px-[3%]">
                 
@@ -536,6 +562,7 @@
     </div>
 
     <!-- ================= SCRIPTS GLOBALES ================= -->
+    <script src="menu.js"></script>
     <script src="sobreEnvios.js"></script>
     <script src="main.js"></script>
 </body>
