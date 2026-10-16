@@ -30,14 +30,18 @@ function limpiarError(event) {
 function enviarWhatsApp(event) {
     event.preventDefault();
     
-    const nombre = document.getElementById('nombre').value;
-    let consulta = document.getElementById('consulta').value;
+    const nombre = document.getElementById('nombre').value.trim();
+    const consulta = document.getElementById('consulta').value.trim();
     
-    if (consulta.trim() === '') {
-        consulta = 'Quiero consultar sobre sus servicios ';
+    let mensaje = '';
+    
+    // Si no escribió ninguna consulta (o escribió exactamente la frase predefinida)
+    if (consulta === '' || consulta === 'Quiero consultar sobre sus servicios') {
+        mensaje = `Buenas, soy ${nombre}. Quiero consultar sobre sus servicios `;
+    } else {
+        // Si el usuario escribió su propio mensaje personalizado
+        mensaje = `Mensaje de ${nombre}: ${consulta}`;
     }
-    
-    const mensaje = `Buenas, soy ${nombre}. ${consulta}`;
     
     const telefono = "5493815392765";
     
