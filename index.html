@@ -26,8 +26,11 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Iconos para las estrellas y comillas de los Testimonios -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
         /* Scroll suave para los enlaces del menú */
         html { scroll-behavior: smooth; }
@@ -110,48 +113,66 @@
         @media (max-width: 768px) { .slide-content-wrapper { padding: 1rem !important; } .slide-content-wrapper h3 { font-size: 1.5rem; margin-bottom: 0.5rem; } .grid-cols-1-md-2 { grid-template-columns: 1fr; } .feat-element p:first-child { font-size: 1.75rem !important; line-height: 1.2; } .feat-element p { font-size: 0.875rem; } }
 
         /* ================= ESTILOS CÓMO TRABAJAMOS ================= */
-        .bg-como-trabajamos { 
-            background: linear-gradient(135deg, #e0e7ff 0%, #ffffff 50%, #e0e7ff 100%); 
-        }
-        .timeline-container { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            padding: 30px 20px 80px 20px; position: relative; 
-        }
-        .section-title { 
-            color: #0a2052; font-size: 2.2rem; font-weight: 800; text-align: center; 
-            margin-bottom: 50px; margin-top: 0; opacity: 0; 
-        }
-        /* Clases separadas para activar la animación con JS al llegar a la sección */
+        .bg-como-trabajamos { background: linear-gradient(135deg, #e0e7ff 0%, #ffffff 50%, #e0e7ff 100%); }
+        .timeline-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px 80px 20px; position: relative; }
+        .section-title { color: #0a2052; font-size: 2.2rem; font-weight: 800; text-align: center; margin-bottom: 50px; margin-top: 0; opacity: 0; }
         .section-title.is-visible { animation: fadeInDown 0.8s ease-out forwards; }
         .timeline-wrapper { position: relative; display: flex; flex-direction: column; }
-        .timeline-wrapper::before { 
-            content: ''; position: absolute; top: 10px; bottom: 10px; left: 25px; 
-            transform: translateX(-50%); width: 30px; background: linear-gradient(to bottom, #1d4ed8, #8da9c4); 
-            border-radius: 20px; z-index: 0; box-shadow: 0 0 0 10px rgba(29, 78, 216, 0.1); 
-        }
+        .timeline-wrapper::before { content: ''; position: absolute; top: 10px; bottom: 10px; left: 25px; transform: translateX(-50%); width: 30px; background: linear-gradient(to bottom, #1d4ed8, #8da9c4); border-radius: 20px; z-index: 0; box-shadow: 0 0 0 10px rgba(29, 78, 216, 0.1); }
         .step-row { display: flex; align-items: center; gap: 15px; margin-bottom: 45px; position: relative; z-index: 1; }
         .step-row:last-child { margin-bottom: 0; }
-        .step-circle { 
-            width: 50px; height: 50px; background: white; border: 3px solid #1d4ed8; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            font-weight: 800; color: #1d4ed8; flex-shrink: 0; position: relative; z-index: 2; 
-        }
-        .step-line { 
-            height: 2px; width: 40px; background: linear-gradient(to right, #1d4ed8, #8da9c4); 
-            position: relative; z-index: 1; flex-shrink: 0; transform-origin: left center; 
-            opacity: 0; transform: scaleX(0); 
-        }
-        /* Clases separadas para activar la animación con JS al llegar a la sección */
+        .step-circle { width: 50px; height: 50px; background: white; border: 3px solid #1d4ed8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #1d4ed8; flex-shrink: 0; position: relative; z-index: 2; }
+        .step-line { height: 2px; width: 40px; background: linear-gradient(to right, #1d4ed8, #8da9c4); position: relative; z-index: 1; flex-shrink: 0; transform-origin: left center; opacity: 0; transform: scaleX(0); }
         .step-line.is-visible { animation: drawLine 0.4s ease-out both; }
         .text-box { position: relative; z-index: 1; opacity: 0; transform: translateX(-15px); }
-        /* Clases separadas para activar la animación con JS al llegar a la sección */
         .text-box.is-visible { animation: fadeInRight 0.5s ease-out both; }
         .text-box h3 { font-size: 1.15rem; font-weight: 800; color: #0a2052; margin: 0 0 6px 0; line-height: 1.2; }
         .text-box p { font-size: 1rem; color: #475569; margin: 0; max-width: 280px; line-height: 1.5; }
-
         @keyframes fadeInDown { 0% { opacity: 0; transform: translateY(-20px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes drawLine { 0% { transform: scaleX(0); opacity: 0; } 100% { transform: scaleX(1); opacity: 1; } }
         @keyframes fadeInRight { 0% { opacity: 0; transform: translateX(-15px); } 100% { opacity: 1; transform: translateX(0); } }
+
+        /* ================= ESTILOS TESTIMONIOS (CARRUSEL 3D) ================= */
+        .star-container { display: inline-flex; align-items: center; background: white; padding: 10px 20px; border-radius: 50px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); margin-bottom: 1rem; position: relative; }
+        .star-anim { color: #d1d5db; font-size: 2rem; margin: 0 5px; transition: transform 0.2s ease; }
+        .star-anim.active { background: linear-gradient(to bottom right, #1d4ed8, #8da9c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+        .carousel-wrapper-test { position: relative; width: 100%; max-width: 1000px; margin: 0 auto; height: 450px; display: flex; justify-content: center; align-items: center; perspective: 1000px; overflow: hidden; }
+        .carousel-container-test { display: flex; justify-content: center; align-items: center; position: relative; width: 100%; height: 100%; }
+        .review-card { position: absolute; width: 320px; background: rgba(255, 255, 255, 0.9); border-radius: 24px; padding: 2rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; opacity: 0; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; min-height: 350px; }
+        .quote-icon { font-size: 3rem; color: #e2e8f0; position: absolute; top: 1rem; right: 1.5rem; z-index: 0; }
+        .card-content-test { position: relative; z-index: 10; }
+        .stars-card { background: linear-gradient(to bottom right, #1d4ed8, #8da9c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; width: fit-content; font-size: 1.2rem; margin-bottom: 1rem; }
+        .review-text { color: #4b5563; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
+        .author-info { display: flex; align-items: center; background: linear-gradient(to bottom right, #1d4ed8, #8da9c4); padding: 0.75rem 1rem; border-radius: 100px; color: white; margin-top: auto; }
+        .author-avatar { width: 40px; height: 40px; background-color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: #2563eb; }
+        .author-details h4 { font-weight: 700; font-size: 0.9rem; margin: 0; line-height: 1.2; }
+        .author-details p { font-size: 0.75rem; margin: 0; opacity: 0.9; }
+
+        .review-card.active { transform: translateX(0) scale(1) translateZ(0); opacity: 1; z-index: 10; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); }
+        .review-card.prev { transform: translateX(-40%) scale(0.85) translateZ(-100px); opacity: 0.7; z-index: 5; }
+        .review-card.next { transform: translateX(40%) scale(0.85) translateZ(-100px); opacity: 0.7; z-index: 5; }
+        .review-card.hidden-left { transform: translateX(-80%) scale(0.6) translateZ(-200px); opacity: 0; z-index: 1; }
+        .review-card.hidden-right { transform: translateX(80%) scale(0.6) translateZ(-200px); opacity: 0; z-index: 1; }
+
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: white; border: none; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; z-index: 20; display: flex; align-items: center; justify-content: center; color: #333; transition: background 0.3s; }
+        .nav-btn:hover { background: #f1f5f9; }
+        .nav-prev { left: 10px; }
+        .nav-next { right: 10px; }
+
+        @media (max-width: 768px) {
+            .review-card { width: 250px; padding: 1.2rem; min-height: 380px; }
+            .review-card.prev { transform: translateX(-55%) scale(0.8) translateZ(-100px); }
+            .review-card.next { transform: translateX(55%) scale(0.8) translateZ(-100px); }
+            .review-card.hidden-left { transform: translateX(-90%) scale(0.6) translateZ(-200px); }
+            .review-card.hidden-right { transform: translateX(90%) scale(0.6) translateZ(-200px); }
+            .nav-btn { width: 36px; height: 36px; font-size: 0.9rem; }
+            .nav-prev { left: 2px; }
+            .nav-next { right: 2px; }
+            .review-text { font-size: 0.85rem; }
+            .stars-card { font-size: 1rem; }
+            .quote-icon { font-size: 2rem; right: 1rem; }
+        }
     </style>
 </head>
 <body class="bg-[#f3f4f6] m-0 p-0">
@@ -187,11 +208,12 @@
             <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 relative bg-white z-50">
                 <div class="font-bold text-xl text-blue-900 tracking-wider">JG LOGÍSTICA</div>
                 
+                <!-- Menú Escritorio Actualizado: Testimonios va antes que Contacto -->
                 <div class="hidden md:flex gap-8 text-sm font-semibold text-gray-600">
                     <a href="#servicios" class="hover:text-blue-600 transition">Servicios</a>
                     <a href="#about-me" class="hover:text-blue-600 transition">Sobre mí</a>
+                    <a href="#testimonios" class="hover:text-blue-600 transition">Testimonios</a>
                     <a href="#" class="hover:text-blue-600 transition">Contacto</a>
-                    <a href="#" class="hover:text-blue-600 transition">Testimonios</a>
                 </div>
                 
                 <button id="mobile-menu-btn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center z-50 focus:outline-none">
@@ -201,12 +223,13 @@
                 </button>
             </nav>
 
+            <!-- Menú Mobile Actualizado: Testimonios va antes que Contacto -->
             <div id="mobile-menu" class="absolute top-full left-0 w-full bg-white overflow-hidden transition-all duration-300 ease-in-out max-h-0 md:hidden border-gray-200" style="border-bottom-width: 0px;">
                 <div class="flex flex-col px-6 py-4 gap-4 text-gray-600 font-semibold border-t border-gray-100">
                     <a href="#servicios" class="mobile-link hover:text-blue-600 transition block">Servicios</a>
                     <a href="#about-me" class="mobile-link hover:text-blue-600 transition block">Sobre mí</a>
+                    <a href="#testimonios" class="mobile-link hover:text-blue-600 transition block">Testimonios</a>
                     <a href="#" class="mobile-link hover:text-blue-600 transition block">Contacto</a>
-                    <a href="#" class="mobile-link hover:text-blue-600 transition block">Testimonios</a>
                 </div>
             </div>
         </header>
@@ -296,7 +319,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN SOBRE MÍ (Carrusel 3D) -->
+        <!-- SECCIÓN SOBRE MÍ -->
         <div class="w-full bg-[#f3f4f6]">
             <section id="about-me" class="max-w-4xl mx-auto py-16 md:py-24 px-4 sm:px-6 lg:px-8">
                 <h2 class="text-4xl md:text-5xl font-extrabold text-[#0a2052] mb-8 text-center">
@@ -314,47 +337,43 @@
             </section>
         </div>
 
-        <!-- ================= NUEVA SECCIÓN CÓMO TRABAJAMOS ================= -->
+        <!-- SECCIÓN CÓMO TRABAJAMOS -->
         <section class="bg-como-trabajamos w-full">
             <div class="timeline-container">
                 <h2 class="section-title">Como trabajamos</h2>
                 
                 <div class="timeline-wrapper">
-                    <!-- Paso 1 -->
                     <div class="step-row">
                         <div class="step-circle">01</div>
-                        <div class="step-line" style="animation-delay: 0.2s;"></div>
-                        <div class="text-box" style="animation-delay: 0.5s;">
+                        <div class="step-line"></div>
+                        <div class="text-box">
                             <h3>DEFINE OBJECTIVES</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
                         </div>
                     </div>
 
-                    <!-- Paso 2 -->
                     <div class="step-row">
                         <div class="step-circle">02</div>
-                        <div class="step-line" style="animation-delay: 1.0s;"></div>
-                        <div class="text-box" style="animation-delay: 1.3s;">
+                        <div class="step-line"></div>
+                        <div class="text-box">
                             <h3>BUILD THE TIMELINE</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
                         </div>
                     </div>
 
-                    <!-- Paso 3 -->
                     <div class="step-row">
                         <div class="step-circle">03</div>
-                        <div class="step-line" style="animation-delay: 1.8s;"></div>
-                        <div class="text-box" style="animation-delay: 2.1s;">
+                        <div class="step-line"></div>
+                        <div class="text-box">
                             <h3>ASSIGN RESPONSIBILITIES</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
                         </div>
                     </div>
 
-                    <!-- Paso 4 -->
                     <div class="step-row">
                         <div class="step-circle">04</div>
-                        <div class="step-line" style="animation-delay: 2.6s;"></div>
-                        <div class="text-box" style="animation-delay: 2.9s;">
+                        <div class="step-line"></div>
+                        <div class="text-box">
                             <h3>ALLOCATE RESOURCES</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
                         </div>
@@ -363,13 +382,167 @@
             </div>
         </section>
 
+        <!-- ================= NUEVA SECCIÓN TESTIMONIOS ================= -->
+        <!-- Mismo espaciado base: pt-[30px] (igual a los 30px de como trabajamos) y pb-[80px] -->
+        <section id="testimonios" class="pt-[30px] pb-[80px] bg-slate-50 relative overflow-hidden">
+            <!-- Decoraciones de fondo -->
+            <div class="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 bg-teal-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 translate-x-1/3 translate-y-1/3"></div>
+
+            <div class="container mx-auto px-4 relative z-10 text-center">
+                
+                <!-- Animación de Estrellas interactiva (Referencia visual) -->
+                <div class="flex justify-center mb-6">
+                    <div class="star-container">
+                        <!-- Se animarán con JS -->
+                        <i class="fas fa-star star-anim" id="star1"></i>
+                        <i class="fas fa-star star-anim" id="star2"></i>
+                        <i class="fas fa-star star-anim" id="star3"></i>
+                        <i class="fas fa-star star-anim" id="star4"></i>
+                        <i class="fas fa-star star-anim" id="star5"></i>
+                    </div>
+                </div>
+
+                <!-- //SOFF aqui cambiar clor titulo -->
+                <h2 class="text-4xl md:text-5xl font-extrabold text-[#0a2052] mb-4 tracking-tight">
+                    Clientes Felices
+                </h2>
+                <p class="text-slate-500 max-w-2xl mx-auto mb-12 text-lg">
+                    No confíes solo en nuestra palabra. Mira lo que opinan quienes confían sus envíos y encomiendas con nosotros cada día.
+                </p>
+
+                <div class="carousel-wrapper-test" id="carouselWrapper">
+                    
+                    <button class="nav-btn nav-prev" onclick="moveCarousel('prev')"><i class="fas fa-chevron-left"></i></button>
+                    
+                    <div class="carousel-container-test" id="carouselContainer">
+                        
+                        <!-- Tarjeta 1 -->
+                        <div class="review-card" data-index="0">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <div class="card-content-test flex flex-col h-full">
+                                <div class="stars-card">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-2 text-slate-800">Servicio Impecable</h3>
+                                <p class="review-text">
+                                    "Siempre envío paquetes a mi familia en el interior y nunca he tenido un problema. Llegan a tiempo y en perfecto estado. La atención al cliente es excepcional y muy resolutiva."
+                                </p>
+                                <div class="author-info">
+                                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                                    <div class="author-details">
+                                        <h4>María Gómez</h4>
+                                        <p>Emprendedora</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 2 -->
+                        <div class="review-card" data-index="1">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <div class="card-content-test flex flex-col h-full">
+                                <div class="stars-card">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-2 text-slate-800">Rápido y Seguro</h3>
+                                <p class="review-text">
+                                    "Lo que más destaco es la velocidad. Necesitaba enviar documentos urgentes y llegaron al día siguiente. Además, el sistema de seguimiento en la web es muy fácil de usar."
+                                </p>
+                                <div class="author-info">
+                                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                                    <div class="author-details">
+                                        <h4>Carlos Rodríguez</h4>
+                                        <p>Abogado</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 3 -->
+                        <div class="review-card" data-index="2">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <div class="card-content-test flex flex-col h-full">
+                                <div class="stars-card">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-2 text-slate-800">Excelente Precio</h3>
+                                <p class="review-text">
+                                    "Comparé tarifas con otras empresas y definitivamente ofrecen la mejor relación calidad-precio. Mis encomiendas grandes no me cuestan una fortuna. Totalmente recomendados."
+                                </p>
+                                <div class="author-info">
+                                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                                    <div class="author-details">
+                                        <h4>Laura Fernández</h4>
+                                        <p>Estudiante</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 4 -->
+                        <div class="review-card" data-index="3">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <div class="card-content-test flex flex-col h-full">
+                                <div class="stars-card">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-2 text-slate-800">Muy Confiables</h3>
+                                <p class="review-text">
+                                    "Llevo usando sus servicios más de un año para mi tienda online. Jamás han perdido un paquete. Mis clientes están felices y yo también. Son un aliado clave para mi negocio."
+                                </p>
+                                <div class="author-info">
+                                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                                    <div class="author-details">
+                                        <h4>Martín Silva</h4>
+                                        <p>Dueño de E-commerce</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 5 -->
+                        <div class="review-card" data-index="4">
+                            <i class="fas fa-quote-right quote-icon"></i>
+                            <div class="card-content-test flex flex-col h-full">
+                                <div class="stars-card">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-2 text-slate-800">Atención Personalizada</h3>
+                                <p class="review-text">
+                                    "Tuve una duda con un embalaje especial y me asesoraron por teléfono con mucha paciencia. Se nota que se preocupan por el cliente. El paquete llegó intacto."
+                                </p>
+                                <div class="author-info">
+                                    <div class="author-avatar"><i class="fas fa-user"></i></div>
+                                    <div class="author-details">
+                                        <h4>Sofía Torres</h4>
+                                        <p>Artista Plástica</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <button class="nav-btn nav-next" onclick="moveCarousel('next')"><i class="fas fa-chevron-right"></i></button>
+
+                    <!-- Indicadores (Puntos) -->
+                    <div class="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 flex space-x-2 hidden md:flex" id="carouselDots">
+                        <!-- Generados por JS -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
     </div>
 
     <!-- ================= SCRIPTS GLOBALES ================= -->
     <script src="menu.js"></script>
     <script src="sobreEnvios.js"></script>
-    <!-- Incluimos el nuevo archivo independiente -->
-    <script src="comoTrabajamos3.js"></script>
+    <script src="comoTrabajamos.js"></script>
+    <!-- Incluimos el nuevo archivo independiente para los testimonios -->
+    <script src="testimonios.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
