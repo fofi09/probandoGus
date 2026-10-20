@@ -375,6 +375,18 @@
                 max-height: 90%; 
             }
         }
+
+        /*  */
+        /* ================= ESTILOS PREGUNTAS FRECUENTES ================= */
+        .accordion-content {
+            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+            max-height: 0;
+            overflow: hidden;
+        }
+        .accordion-content.open {
+            max-height: 1000px;
+            transition: max-height 0.4s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-[#f3f4f6] m-0 p-0">
@@ -804,6 +816,132 @@
 
         </section>
 
+        <!-- SECCIÓN PREGUNTAS FRECUENTES -->
+         <section id="faq" class="pt-[30px] pb-[80px] bg-[linear-gradient(135deg,#ffffff_0%,#dbe4ed_100%)] relative overflow-hidden">
+        <section id="faq" class="pt-[30px] pb-[80px] bg-white relative overflow-hidden">
+            <div class="max-w-2xl mx-auto px-4 relative z-10 text-center">
+                
+                <!-- //aqui titulo con exactamente el mismo tamaño, color y espaciado -->
+                <h2 class="text-4xl md:text-4xl font-extrabold text-[#0a2052] mb-8 text-center tracking-tight">
+                    Preguntas frecuentes
+                </h2>
+
+                <div class="w-full bg-white rounded-xl shadow-xl overflow-hidden border border-blue-900/10">
+                    
+                    <!-- ITEM 1 -->
+                    <div class="accordion-item border-b border-blue-600/20 last:border-b-0">
+                        <button class="accordion-header w-full flex items-center justify-between p-4 bg-gradient-to-br from-blue-700 to-[#8da9c4] text-white font-medium hover:brightness-110 transition-all duration-200 select-none text-left" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <span class="icon-wrapper w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs text-white">
+                                    <i class="fa-solid fa-plus"></i>
+                                </span>
+                                <span class="text-sm md:text-base">¿Trabajan con cadena de frío?</span>
+                            </div>
+                            <span class="badge w-6 h-6 rounded-full border border-white/60 flex items-center justify-center text-xs font-light">
+                                1
+                            </span>
+                        </button>
+                        <div class="accordion-content bg-slate-50">
+                            <div class="border-t border-gray-200">
+                                <div class="p-4 text-center text-gray-500 text-sm hover:bg-gray-100 transition-colors">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 2 -->
+                    <div class="accordion-item border-b border-blue-600/20 last:border-b-0">
+                        <button class="accordion-header w-full flex items-center justify-between p-4 bg-gradient-to-br from-blue-700 to-[#8da9c4] text-white font-medium hover:brightness-110 transition-all duration-200 select-none text-left" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <span class="icon-wrapper w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs text-white">
+                                    <i class="fa-solid fa-plus"></i>
+                                </span>
+                                <span class="text-sm md:text-base">¿Realizan envíos a todo el país?</span>
+                            </div>
+                            <span class="badge w-6 h-6 rounded-full border border-white/60 flex items-center justify-center text-xs font-light">
+                                2
+                            </span>
+                        </button>
+                        <div class="accordion-content bg-slate-50">
+                            <div class="border-t border-gray-200">
+                                <div class="p-4 text-center text-gray-500 text-sm hover:bg-gray-100 transition-colors">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nisi. Nulla quis sem at nibh elementum imperdiet.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 3 -->
+                    <div class="accordion-item border-b border-blue-600/20 last:border-b-0">
+                        <button class="accordion-header w-full flex items-center justify-between p-4 bg-gradient-to-br from-blue-700 to-[#8da9c4] text-white font-medium hover:brightness-110 transition-all duration-200 select-none text-left" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <span class="icon-wrapper w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs text-white">
+                                    <i class="fa-solid fa-plus"></i>
+                                </span>
+                                <span class="text-sm md:text-base">¿Con qué empresas trabajan?</span>
+                            </div>
+                            <span class="badge w-6 h-6 rounded-full border border-white/60 flex items-center justify-center text-xs font-light">
+                                3
+                            </span>
+                        </button>
+                        <div class="accordion-content bg-slate-50">
+                            <div class="border-t border-gray-200">
+                                <div class="p-4 text-center text-gray-500 text-sm hover:bg-gray-100 transition-colors">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis ipsum. Praesent mauris.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 4 -->
+                    <div class="accordion-item border-b border-blue-600/20 last:border-b-0">
+                        <button class="accordion-header w-full flex items-center justify-between p-4 bg-gradient-to-br from-blue-700 to-[#8da9c4] text-white font-medium hover:brightness-110 transition-all duration-200 select-none text-left" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <span class="icon-wrapper w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs text-white">
+                                    <i class="fa-solid fa-plus"></i>
+                                </span>
+                                <span class="text-sm md:text-base">¿Realizan facturas?</span>
+                            </div>
+                            <span class="badge w-6 h-6 rounded-full border border-white/60 flex items-center justify-center text-xs font-light">
+                                4
+                            </span>
+                        </button>
+                        <div class="accordion-content bg-slate-50">
+                            <div class="border-t border-gray-200">
+                                <div class="p-4 text-center text-gray-500 text-sm hover:bg-gray-100 transition-colors">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec tellus sed augue semper porta.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 5 -->
+                    <div class="accordion-item border-b border-blue-600/20 last:border-b-0">
+                        <button class="accordion-header w-full flex items-center justify-between p-4 bg-gradient-to-br from-blue-700 to-[#8da9c4] text-white font-medium hover:brightness-110 transition-all duration-200 select-none text-left" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <span class="icon-wrapper w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs text-white">
+                                    <i class="fa-solid fa-plus"></i>
+                                </span>
+                                <span class="text-sm md:text-base">¿Cómo es el seguimiento?</span>
+                            </div>
+                            <span class="badge w-6 h-6 rounded-full border border-white/60 flex items-center justify-center text-xs font-light">
+                                5
+                            </span>
+                        </button>
+                        <div class="accordion-content bg-slate-50">
+                            <div class="border-t border-gray-200">
+                                <div class="p-4 text-center text-gray-500 text-sm hover:bg-gray-100 transition-colors">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lacinia arcu eget nulla.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <!-- ================= SCRIPTS GLOBALES ================= -->
@@ -812,6 +950,7 @@
     <script src="comoTrabajamos4.js"></script>
     <script src="testimonios.js"></script>
     <script src="contacto.js"></script>
+      <script src="PreguntasFrecuentes.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
