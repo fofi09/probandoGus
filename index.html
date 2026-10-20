@@ -437,25 +437,43 @@
         </header>
 
         <!-- SECCIÓN HERO -->
+       <!-- SECCIÓN HERO -->
+        <!-- SECCIÓN HERO -->
+    
+        <!-- SECCIÓN HERO -->
         <section class="w-full h-[85svh] md:h-[80vh] flex flex-col md:flex-row relative overflow-hidden">
             <!-- //SOFF aqui ca,bia color del fondo del hero -->
             <div class="relative z-10 w-full md:w-[45%] h-full flex flex-col justify-center items-center px-6 pt-2 pb-14 md:p-8 lg:p-16 bg-transparent md:bg-white">
                 <div class="text-center w-full h-full md:h-auto flex flex-col justify-between md:block">
                     <div>
-                        <!-- //SOFF aqui ca,boa color de letra de frases del hero. -->
-                        <h1 class="text-5xl lg:text-7xl font-extrabold text-blue-900 tracking-tight anim-jg-envios font-jump">JG ENVÍOS</h1>
+                        <!-- //soff aqui podes cambiar padding del titulo -->
+                        <!-- //aqui letra de jg envios en celu: text-[30px] | en tablet/notebook: md:text-[60px] | en pc: lg:text-[45px] -->
+                        <!-- //SOFF Color azul oscuro en todas las pantallas -->
+                        <h1 class="pt-[16px] md:pt-0 text-[32px] md:text-[60px] lg:text-[45px] font-extrabold text-[#0a2052] tracking-tight anim-jg-envios font-jump leading-tight">JG ENVÍOS</h1>
+                        
+                        <!-- Párrafo SOLO visible en celular (pegado al título con mt-0) -->
+                        <p class="md:hidden mt-1 text-gray-600 text-lg anim-fade-in max-w-md mx-auto">Tu logística de confianza. Llegamos a donde necesites, rápido y seguro.</p>
                     </div>
                     <div>
+                        <!-- //aqui letra de bienvenido en celu: text-[28px] | en tablet/notebook: md:text-[40px] | en pc: lg:text-[37px] -->
+                        <!-- //SOFF Oculto en celular, visible en compu -->
+                        <h2 class="hidden md:block text-[28px] md:text-[40px] lg:text-[37px] font-bold text-orange-500 mt-2 md:mt-4 anim-bienvenido leading-tight">BIENVENIDO</h2>
+                        
+                        <!-- Párrafo SOLO visible en compu/tablet (en su posición original) -->
                         <!-- //SOFF aqui ca,boa color de letra de frases del hero. -->
-                        <h2 class="text-3xl lg:text-5xl font-bold text-orange-500 mt-4 md:mt-4 anim-bienvenido">BIENVENIDO</h2>
-                        <!-- //SOFF aqui ca,boa color de letra de frases del hero. -->
-                        <p class="mt-6 text-gray-600 text-lg lg:text-xl anim-fade-in max-w-md mx-auto">Tu logística de confianza. Llegamos a donde necesites, rápido y seguro.</p>
-                        <div class="mt-8 anim-fade-in"><button class="bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition">Cotizar Envío</button></div>
+                        <p class="hidden md:block mt-4 md:mt-6 text-gray-600 text-lg lg:text-xl anim-fade-in max-w-md mx-auto">Tu logística de confianza. Llegamos a donde necesites, rápido y seguro.</p>
+                        
+                        <!-- //SOFF Boton con degradado en todas las pantallas -->
+                        <div class="mt-8 anim-fade-in"><button class="bg-gradient-to-br from-blue-700 to-[#8da9c4] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:brightness-110 transition">Cotizar Envío</button></div>
                     </div>
                 </div>
             </div>
             <div class="hero-image-bg absolute inset-0 md:relative w-full md:w-[55%] h-full z-0"></div>
         </section>
+
+
+
+
 
         <!-- SECCIÓN VALORES -->
         <!-- //SOFF aqui cambias color -->
@@ -794,7 +812,7 @@
     <!-- ================= SCRIPTS GLOBALES ================= -->
     <script src="menu.js"></script>
     <script src="sobreEnvios.js"></script>
-    <script src="comoTrabajamos.js"></script>
+    <script src="comoTrabajamos3.js"></script>
     <script src="testimonios.js"></script>
     <script src="contacto.js"></script>
     <script src="main.js"></script>
