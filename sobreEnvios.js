@@ -1,7 +1,7 @@
 // ----------------------------------------------------
 // LÓGICA DEL CARRUSEL DE "SOBRE MÍ"
 // ----------------------------------------------------
-const credentialImagePath = 'gus1.jpg';
+const credentialImagePath = 'gus2.jpg';
 
 const cardBackContent = `
     <div class="id-card p-5 md:p-6 w-full">
