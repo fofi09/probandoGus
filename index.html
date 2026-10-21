@@ -378,15 +378,20 @@
 
         /*  */
         /* ================= ESTILOS PREGUNTAS FRECUENTES ================= */
-        .accordion-content {
-            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
-            max-height: 0;
-            overflow: hidden;
-        }
-        .accordion-content.open {
-            max-height: 1000px;
-            transition: max-height 0.4s ease-in-out;
-        }
+   /* ================= ESTILOS PREGUNTAS FRECUENTES ================= */
+#faq {
+    background: linear-gradient(135deg, #ffffff 0%, #dbe4ed 100%);
+}
+
+.accordion-content {
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+    max-height: 0;
+    overflow: hidden;
+}
+.accordion-content.open {
+    max-height: 1000px;
+    transition: max-height 0.4s ease-in-out;
+}
     </style>
 </head>
 <body class="bg-[#f3f4f6] m-0 p-0">
@@ -585,7 +590,7 @@
         </div>
 
         <!-- SECCIÓN CÓMO TRABAJAMOS -->
-        <section class="bg-como-trabajamos w-full">
+        <section id="comoTrabajamos" class="bg-como-trabajamos w-full">
             <div class="timeline-container">
                 <h2 class="section-title">Como trabajamos</h2>
                 
@@ -818,17 +823,16 @@
 
         <!-- SECCIÓN PREGUNTAS FRECUENTES -->
        <!-- SECCIÓN PREGUNTAS FRECUENTES -->
-<section id="faq" class="pt-[30px] pb-[80px] bg-gradient-to-br from-white to-[#dbe4ed] relative overflow-hidden">
-        <!-- <section id="faq" class="pt-[30px] pb-[80px] bg-[linear-gradient(135deg,#ffffff_0%,#dbe4ed_100%)] relative overflow-hidden"> -->
+<!-- SECCIÓN PREGUNTAS FRECUENTES -->
+        <section id="faq" class="pt-[30px] pb-[80px] relative overflow-hidden">
             <div class="max-w-2xl mx-auto px-4 relative z-10 text-center">
                 
                 <h2 class="text-4xl md:text-4xl font-extrabold text-[#0a2052] mb-8 text-center tracking-tight">
                     Preguntas frecuentes
                 </h2>
 
-                <!-- //SOFF Contenedor con el mismo degradado suave de Contactos (ya no es blanco puro) -->
-                <!-- <div class="w-full bg-[linear-gradient(135deg,#ffffff_0%,#dbe4ed_100%)] rounded-xl shadow-xl overflow-hidden border border-blue-900/10"> -->
-                   <div class="w-full bg-gradient-to-br from-white to-[#dbe4ed] rounded-xl shadow-xl overflow-hidden border border-blue-900/10"></div> 
+                <div class="w-full bg-transparent rounded-xl shadow-xl overflow-hidden border border-blue-900/10">
+                    
                     <!-- ITEM 1 -->
                     <div class="accordion-item border-b border-blue-600/20 last:border-b-0">
                         <button class="accordion-header w-full flex items-center justify-between p-4 bg-gradient-to-br from-blue-700 to-[#8da9c4] text-white font-medium hover:brightness-110 transition-all duration-200 select-none text-left" onclick="toggleAccordion(this)">
@@ -943,8 +947,87 @@
             </div>
         </section>
 
-    </div>
+        <!-- FOOTER COMPONENT -->
+   <!-- FOOTER COMPONENT -->
+    <footer class="w-full bg-[#0033A0] text-white shadow-2xl relative overflow-hidden">
+        
+        <!-- Sutiles elementos decorativos de luz de fondo -->
+        <div class="absolute -top-24 -left-24 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-400/10 rounded-full blur-3xl pointer-events-none"></div>
 
+        <div class="max-w-6xl mx-auto px-5 py-8 md:py-10 relative z-10">
+            <!-- Grid de dos columnas principal -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+
+                <!-- COLUMNA IZQUIERDA: Enlaces de navegación en lista vertical -->
+                <div class="space-y-4">
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-blue-300/80">Navegación</h3>
+                    <nav class="flex flex-col space-y-2.5">
+                        <a href="#servicios" class="inline-flex items-center text-slate-200 hover:text-white hover:translate-x-1 transition-all duration-200 text-sm font-medium">
+                            Mis servicios
+                        </a>
+                        <a href="#about-me" class="inline-flex items-center text-slate-200 hover:text-white hover:translate-x-1 transition-all duration-200 text-sm font-medium">
+                            Sobre nosotros
+                        </a>
+                        <a href="#comoTrabajamos" class="inline-flex items-center text-slate-200 hover:text-white hover:translate-x-1 transition-all duration-200 text-sm font-medium">
+                            Cómo trabajamos
+                        </a>
+                        <a href="#testimonios" class="inline-flex items-center text-slate-200 hover:text-white hover:translate-x-1 transition-all duration-200 text-sm font-medium">
+                            Testimonios
+                        </a>
+                        <a href="#faq" class="inline-flex items-center text-slate-200 hover:text-white hover:translate-x-1 transition-all duration-200 text-sm font-medium">
+                            Preguntas frecuentes
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- COLUMNA DERECHA: Contacto -->
+                <div class="space-y-4 md:border-l md:border-blue-800/40 md:pl-10">
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-blue-300/80">Contacto</h3>
+                    
+                    <p class="text-xs text-slate-300 leading-relaxed max-w-sm">
+                        ¿Tenés alguna duda o querés coordinar un envío? Escribinos y te respondemos a la brevedad.
+                    </p>
+
+                    <div class="space-y-2.5 pt-1">
+                        <a href="#contacto" class="flex items-center text-xs text-slate-200 hover:text-blue-300 transition-colors duration-200">
+                            <div class="w-7 h-7 rounded-lg bg-blue-900/50 flex items-center justify-center mr-3 border border-blue-700/40 text-blue-300">
+                                <i class="fa-regular fa-file-lines"></i>
+                            </div>
+                            <span>Formulario</span>
+                        </a>
+
+                        <a href="https://wa.me/5493815392765" target="_blank" class="flex items-center text-xs text-slate-200 hover:text-emerald-400 transition-colors duration-200">
+                            <div class="w-7 h-7 rounded-lg bg-blue-900/50 flex items-center justify-center mr-3 border border-blue-700/40 text-emerald-400">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <span>+54 9 381 539-2765</span>
+                        </a>
+
+                        <div class="flex items-center text-xs text-slate-200">
+                            <div class="w-7 h-7 rounded-lg bg-blue-900/50 flex items-center justify-center mr-3 border border-blue-700/40 text-blue-300">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <span>Tucumán, Argentina</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- LÍNEA DIVISORA Y COPYRIGHT -->
+            <div class="mt-8 pt-5 border-t border-blue-800/40 flex flex-col sm:flex-row items-center justify-between text-center sm:text-left gap-3">
+                <p class="text-xs text-slate-400 font-normal">
+                    Todos los derechos reservados.
+                </p>
+                <div class="flex items-center space-x-4 text-xs text-slate-400">
+                    <a href="#" class="hover:text-slate-200 transition-colors">Términos</a>
+                    <span>•</span>
+                    <a href="#" class="hover:text-slate-200 transition-colors">Privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!-- ================= SCRIPTS GLOBALES ================= -->
     <script src="menu.js"></script>
     <script src="sobreEnvios.js"></script>
