@@ -23,7 +23,7 @@ const cardBackContent = `
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-red-500" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                         </svg>
-                        España (Envío a todo el mundo)
+                        Argentina
                     </p>
                     <p class="flex items-center justify-center sm:justify-start">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-green-500" viewBox="0 0 20 20" fill="currentColor">
@@ -38,7 +38,7 @@ const cardBackContent = `
         <div class="mt-6 pt-4 border-t border-gray-200">
             <p class="text-sm font-semibold text-gray-800 mb-2">Mi Misión:</p>
             <p class="text-gray-600 text-base leading-normal">
-                Soy **Javier**, y mi objetivo es asegurar que tus pedidos lleguen a su destino con la máxima rapidez y seguridad, sin importar la distancia. Me encargo de toda la logística para que tú solo tengas que preocuparte de tu producto.
+                Soy Javier, y mi objetivo es asegurar que tus envíos lleguen a su destino con la máxima seguridad, sin importar la distancia. Me encargo de toda la logística para que tú solo tengas que preocuparte de tu producto. 
             </p>
         </div>
 
@@ -79,7 +79,7 @@ const slidesData = [
                 <h3 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 border-blue-200 pb-2">Nuestra Trayectoria y Compromiso</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 grid-cols-1-md-2">
                     <div class="p-6 bg-blue-50 rounded-xl shadow-md border-l-4 border-blue-700 feat-element">
-                        <p class="text-5xl font-extrabold text-blue-700 mb-2">+10</p>
+                        <p class="text-5xl font-extrabold text-blue-700 mb-2">+20</p>
                         <p class="text-xl font-semibold text-gray-700">Años de Experiencia</p>
                         <p class="text-gray-600 mt-1">en la ruta, conectando tus necesidades con soluciones de envío eficientes.</p>
                     </div>
