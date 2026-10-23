@@ -123,10 +123,10 @@
 /* 1. Rango exclusivo de Tablet (Ej: iPad de 768px a 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
     .carousel-container {
-        /* Eliminamos el auto para que los slides no colapsen. Forzamos una altura exacta y proporcionada. */
-        height: 550px !important;
-        min-height: 550px !important; 
-        max-height: 550px !important;
+        /* Altura exacta de notebook para eliminar el hueco abajo en Tablet */
+        height: 460px !important;
+        min-height: 460px !important; 
+        max-height: 460px !important;
     }
     .slide-content-wrapper {
         padding: 2.5rem 3rem !important;
@@ -136,13 +136,13 @@
 /* 2. Rango exclusivo de Monitores Gigantes / TV (más de 1440px) */
 @media (min-width: 1441px) {
     .carousel-container {
-        /* Controla la altura máxima para que la caja no se estire al infinito */
-        height: 55vh !important;
-        max-height: 750px !important;
+        /* Altura exacta de notebook para que la TV no estire la caja al infinito */
+        height: 460px !important;
+        min-height: 460px !important;
+        max-height: 460px !important;
     }
     .slide-content-wrapper {
         padding: 4rem 6rem !important; 
-        /* Fuerza la alineación para que el texto empiece desde arriba y no quede flotando en el medio */
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important; 
@@ -162,6 +162,31 @@
     object-fit: cover !important; /* Llena el 100% del espacio sin deformar la foto */
     object-position: center !important; /* Mantiene el centro de la imagen siempre visible */
     display: block;
+}
+/* <!-- so --> */
+/* =========================================================================
+   PARCHE: IMAGEN AL 100% EN CELULARES ALTOS (SOLO SLIDE 1)
+   ========================================================================= */
+@media (max-width: 767px) {
+    /* Fuerza a que TODA la estructura de la primera tarjeta ocupe el 100% exacto de la caja */
+    .slide:nth-child(1),
+    .slide:nth-child(1) .slide-content-wrapper,
+    .slide:nth-child(1) .card-flip-container,
+    .slide:nth-child(1) .card-flip-wrapper,
+    .slide:nth-child(1) .card-face {
+        height: 100% !important;
+        min-height: 100% !important;
+    }
+    
+    /* Elimina el margen blanco para que la foto toque los extremos del carrusel */
+    .slide:nth-child(1) .slide-content-wrapper {
+        padding: 0 !important;
+    }
+    
+    /* Protege el texto de la parte de atrás (Sobre Mí) para que no se pegue a los bordes de la pantalla */
+    .slide:nth-child(1) .card-back {
+        padding: 1.5rem !important;
+    }
 }
 /* hasta ahi, ya lo de abajo o toque esta iguaq anes es otra seccion ademas */
         /* ================= ESTILOS CÓMO TRABAJAMOS ================= */
